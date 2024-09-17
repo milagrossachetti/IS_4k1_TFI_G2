@@ -1,24 +1,27 @@
-package com.is.IS_4k1_TFI_G2.service.impl;
+package com.is.IS_4k1_TFI_G2.servicio.impl;
 
-import com.is.IS_4k1_TFI_G2.model.HistoriaClinica;
-import com.is.IS_4k1_TFI_G2.model.Paciente;
-import com.is.IS_4k1_TFI_G2.repository.HistoriaClinicaRepository;
-import com.is.IS_4k1_TFI_G2.repository.PacienteRepository;
+import com.is.IS_4k1_TFI_G2.modelos.HistoriaClinica;
+import com.is.IS_4k1_TFI_G2.modelos.Paciente;
+import com.is.IS_4k1_TFI_G2.repositorio.RepositorioHistoriaClinica;
+import com.is.IS_4k1_TFI_G2.repositorio.RepositorioPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 
-public class HistoriaClinicaService {
+public class ServicioHistoriaClinica {
     @Autowired
-    private PacienteService pacienteService;
+    private ServicioPaciente servicioPaciente;
 
     @Autowired
-    private HistoriaClinicaRepository historiaClinicaRepository;
+    private RepositorioPaciente repositorioPaciente;
+
+    @Autowired
+    private RepositorioHistoriaClinica repositorioHistoriaClinica;
 
     public HistoriaClinica crearHistoriaClinica(Long cuil) throws Exception{
         //busca al paciente usando el servicio paciente
-        Paciente paciente = pacienteService.buscarPaciente(cuil);
+        Paciente paciente = servicioPaciente.buscarPaciente(cuil);
 
         //verifica si el paciente tiene una hc
         if (paciente.getHistoriaClinica() != null){
@@ -31,9 +34,7 @@ public class HistoriaClinicaService {
         paciente.setHistoriaClinica(historiaClinica);
 
         //guarda el paciente con la nueva hc
-        pacienteService.save(paciente);
-        return historiaClinicaRepository.save(historiaClinica); //guarda la hc
+        repositorioPaciente.save(paciente);
+        return repositorioHistoriaClinica.save(historiaClinica); //guarda la hc
     }
-
-
 }

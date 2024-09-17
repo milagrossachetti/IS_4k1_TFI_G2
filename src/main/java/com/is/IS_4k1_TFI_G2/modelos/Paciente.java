@@ -1,4 +1,4 @@
-package com.is.IS_4k1_TFI_G2.model;
+package com.is.IS_4k1_TFI_G2.modelos;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,10 +10,8 @@ import lombok.Setter;
 
 public class Paciente {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     private Long cuil;
+
     private String name;
 
     @OneToOne(mappedBy = "paciente")

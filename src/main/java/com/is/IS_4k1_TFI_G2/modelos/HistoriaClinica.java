@@ -1,15 +1,16 @@
-package com.is.IS_4k1_TFI_G2.model;
+package com.is.IS_4k1_TFI_G2.modelos;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class HistoriaClinica {
     @Id
