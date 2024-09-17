@@ -9,5 +9,5 @@ class Is4k1TfiG2ApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
+
