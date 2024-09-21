@@ -47,4 +47,22 @@ public class Paciente {
         this.obraSocialId = obraSocialId;
         this.estado = Estado.ACTIVO;
     }
+
+    public void modificarPaciente(Long dni, String nombreCompleto, Date fechaNacimiento, String numeroTelefono, String email, String direccion, String localidad, String provincia, String pais, String nroAfiliado, Long obraSocialId){
+        this.dni = dni;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaNacimiento = fechaNacimiento;
+        this.numeroTelefono = numeroTelefono;
+        this.email = email;
+        this.direccion = direccion;
+        this.localidad = localidad;
+        this.provincia = provincia;
+        this.pais = pais;
+        this.nroAfiliado = nroAfiliado;
+        this.obraSocialId = obraSocialId;
+    }
+
+    public void bajaPaciente(){
+        this.estado = Estado.SUSPENDIDO;
+    }
 }
