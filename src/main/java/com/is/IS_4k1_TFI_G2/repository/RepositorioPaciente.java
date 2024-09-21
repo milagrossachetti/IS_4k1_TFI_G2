@@ -1,12 +1,11 @@
-package com.is.IS_4k1_TFI_G2.repositorio;
+package com.is.IS_4k1_TFI_G2.repository;
 
-import com.is.IS_4k1_TFI_G2.modelos.Paciente;
+import com.is.IS_4k1_TFI_G2.model.Paciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-
 @Repository
+
 public interface RepositorioPaciente extends JpaRepository<Paciente, Long> {
     Paciente findByCuil(Long cuil);
 }

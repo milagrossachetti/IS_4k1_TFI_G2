@@ -1,24 +1,24 @@
-package com.is.IS_4k1_TFI_G2.modelos;
+package com.is.IS_4k1_TFI_G2.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 
 public class HistoriaClinica {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private Date fechaCreacion;
     @OneToOne
-    @JoinColumn(name = "paciente_id")
+    @JoinColumn(name = "paciente_cuil", referencedColumnName = "cuil")
     private Paciente paciente;
 
 }
