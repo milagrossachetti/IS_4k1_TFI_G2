@@ -1,10 +1,9 @@
-package com.is.IS_4k1_TFI_G2.service.impl;
+package com.is.IS_4k1_TFI_G2.servicio.impl;
 
-import com.is.IS_4k1_TFI_G2.model.HistoriaClinica;
-import com.is.IS_4k1_TFI_G2.model.Paciente;
-import com.is.IS_4k1_TFI_G2.repository.RepositorioHistoriaClinica;
-import com.is.IS_4k1_TFI_G2.repository.RepositorioPaciente;
-import com.is.IS_4k1_TFI_G2.service.impl.ServicioPacienteImpl;
+import com.is.IS_4k1_TFI_G2.modelo.HistoriaClinica;
+import com.is.IS_4k1_TFI_G2.modelo.Paciente;
+import com.is.IS_4k1_TFI_G2.repositorio.RepositorioHistoriaClinica;
+import com.is.IS_4k1_TFI_G2.repositorio.RepositorioPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
