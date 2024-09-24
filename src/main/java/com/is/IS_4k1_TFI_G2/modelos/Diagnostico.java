@@ -11,22 +11,21 @@ import java.util.List;
 @Getter
 @Setter
 
+
 public class Diagnostico {
     @Id
     @GeneratedValue
 
     private Long Id;
     private String nombre;
-    //segun el modelo del dominio tiene descripción, para que seria eso?
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "medico_id", nullable = false)
     private Medico medico;
-    //aqui es donde se tendria que conectar el medico que se autentico
 
     @ManyToOne
-    @JoinColumn (name = "historial_clinico_id", nullable = false)
-    private HistorialClinico historialClinico;
+    @JoinColumn (name = "historia_clinica_id", nullable = false)
+    private HistoriaClinica historiaClinica;
 
     @OneToMany(mappedBy= "diagnostico", cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Evolucion> evoluciones =new ArrayList<>();
@@ -35,10 +34,16 @@ public class Diagnostico {
     public Diagnostico(){
     }
 
-    public Diagnostico(String nombre, HistorialClinico historialClinico, Evolucion primeraEvolucion) {
+    public Diagnostico(String nombre, Medico medico) {
         this.nombre = nombre;
         this.medico = medico;
-        this.historialClinico = historialClinico;
+        this.evoluciones = new ArrayList<>();
+    }
+
+    public Diagnostico(String nombre, HistoriaClinica historiaClinica, Evolucion primeraEvolucion, Medico medico) {
+        this.nombre = nombre;
+        this.medico = medico;
+        this.historiaClinica = historiaClinica;
         agregarEvolucion(primeraEvolucion);
     }
 
@@ -46,8 +51,5 @@ public class Diagnostico {
         this.evoluciones.add(evolucion);
         evolucion.setDiagnostico(this);
     }
-
-
-
 
 }

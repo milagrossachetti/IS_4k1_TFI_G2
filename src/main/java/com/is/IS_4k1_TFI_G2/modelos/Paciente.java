@@ -11,9 +11,6 @@ import java.time.LocalDate;
 
 public class Paciente {
     @Id
-    @GeneratedValue
-
-    private Long Id;
     private Long cuil;
     private Long dni;
     private String Nombre;

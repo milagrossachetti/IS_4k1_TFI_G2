@@ -27,6 +27,8 @@ public class Medico {
     private String localidad;
     private String pais;
     private String provincia;
+    private Long matricula;
+    private String especialidad;
 
     //@ManyToOne
     //private ObraSocial obraSocial;
