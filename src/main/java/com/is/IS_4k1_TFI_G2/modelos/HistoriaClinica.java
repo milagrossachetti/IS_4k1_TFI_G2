@@ -1,22 +1,35 @@
 package com.is.IS_4k1_TFI_G2.modelos;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import lombok.*;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Builder
+
 public class HistoriaClinica {
     @Id
     private Long id;
     private Date fechaCreacion;
     @OneToOne(mappedBy = "historiaClinica")
     private Paciente paciente;
+
+    @OneToMany(mappedBy = "historiaClinica", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Diagnostico> diagnosticos;
+
+    public HistoriaClinica(){
+    }
+
+    public HistoriaClinica(Paciente paciente){
+        this.paciente= paciente;
+    }
+
+    public void agregarDiagnostico(Diagnostico diagnostico){
+        this.diagnosticos.add(diagnostico);
+        diagnostico.setHistoriaClinica(this);
+    }
 }
