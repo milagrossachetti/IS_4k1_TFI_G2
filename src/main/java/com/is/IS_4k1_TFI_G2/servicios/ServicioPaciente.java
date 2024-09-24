@@ -1,7 +1,6 @@
-package com.is.IS_4k1_TFI_G2.service;
+package com.is.IS_4k1_TFI_G2.servicios;
 
-import com.is.IS_4k1_TFI_G2.model.Estado;
-import com.is.IS_4k1_TFI_G2.model.Paciente;
+import com.is.IS_4k1_TFI_G2.modelos.Paciente;
 
 public interface ServicioPaciente {
     void crearPaciente(Paciente paciente) throws Exception;

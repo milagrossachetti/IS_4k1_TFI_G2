@@ -1,14 +1,14 @@
-package com.is.IS_4k1_TFI_G2.service.impl;
-import com.is.IS_4k1_TFI_G2.model.Paciente;
-import com.is.IS_4k1_TFI_G2.repository.RepositorioPaciente;
-import com.is.IS_4k1_TFI_G2.service.ServicioAPISalud;
-import com.is.IS_4k1_TFI_G2.service.ServicioPaciente;
+package com.is.IS_4k1_TFI_G2.servicios.impl;
+import com.is.IS_4k1_TFI_G2.modelos.Paciente;
+import com.is.IS_4k1_TFI_G2.repositorio.RepositorioPaciente;
+import com.is.IS_4k1_TFI_G2.servicios.ServicioAPISalud;
+import com.is.IS_4k1_TFI_G2.servicios.ServicioPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.is.IS_4k1_TFI_G2.model.Estado.SUSPENDIDO;
+import static com.is.IS_4k1_TFI_G2.modelos.Estado.SUSPENDIDO;
 
 @Service
 public class ServicioPacienteImpl implements ServicioPaciente {

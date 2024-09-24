@@ -1,4 +1,4 @@
-package com.is.IS_4k1_TFI_G2.model;
+package com.is.IS_4k1_TFI_G2.modelos;
 
 import jakarta.persistence.*;
 import lombok.*;

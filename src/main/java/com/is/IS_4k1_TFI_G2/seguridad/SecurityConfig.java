@@ -1,4 +1,4 @@
-package com.is.IS_4k1_TFI_G2.security;
+package com.is.IS_4k1_TFI_G2.seguridad;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
