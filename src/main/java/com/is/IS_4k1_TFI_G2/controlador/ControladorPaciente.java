@@ -1,5 +1,6 @@
 package com.is.IS_4k1_TFI_G2.controlador;
 
+import com.is.IS_4k1_TFI_G2.modelos.Paciente;
 import com.is.IS_4k1_TFI_G2.servicios.ServicioPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
