@@ -1,29 +1,52 @@
 package com.is.IS_4k1_TFI_G2.modelos;
 
+import com.is.IS_4k1_TFI_G2.modelos.Estado;
+import com.is.IS_4k1_TFI_G2.modelos.HistoriaClinica;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import java.time.LocalDate;
+import lombok.*;
+
+import java.util.Date;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-
+@Builder
 public class Paciente {
     @Id
     private Long cuil;
     private Long dni;
-    private String Nombre;
-    private String Apellido;
-    private LocalDate fecNac;
-    private String telefono;
+    private String nombreCompleto;
+    private Date fechaNacimiento;
+    private String numeroTelefono;
     private String email;
+    private String direccion;
     private String localidad;
-    private String pais;
     private String provincia;
+    private String pais;
+    private String nroAfiliado;
+    @Enumerated(value = EnumType.STRING)
+    private Estado estado;
+    private Long obraSocialId;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "historia_clinica_id")
+    private HistoriaClinica historiaClinica;
 
-    //@ManyToOne
-    //private ObraSocial obraSocial;
 
-
+    public Paciente(Long cuil, Long dni, String nombreCompleto, Date fechaNacimiento, String numeroTelefono, String email, String direccion, String localidad, String provincia, String pais, String nroAfiliado, Long obraSocialId) {
+        this.cuil = cuil;
+        this.dni = dni;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaNacimiento = fechaNacimiento;
+        this.numeroTelefono = numeroTelefono;
+        this.email = email;
+        this.direccion = direccion;
+        this.localidad = localidad;
+        this.provincia = provincia;
+        this.pais = pais;
+        this.nroAfiliado = nroAfiliado;
+        this.obraSocialId = obraSocialId;
+        this.estado = Estado.ACTIVO;
+    }
 }

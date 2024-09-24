@@ -63,7 +63,7 @@ public class ServicioEvolucion {
             throw new RuntimeException("Solo el médico que creó la evolución puede modificarla.");
         }
 
-        LocalDateTime fechaCreacion = evolucion.getFechaEvolucion();  // Asegúrate que esto sea un LocalDateTime
+        LocalDateTime fechaCreacion = evolucion.getFechaEvolucion();
         LocalDateTime ahora = LocalDateTime.now();
 
         Duration duracion = Duration.between(fechaCreacion, ahora);
