@@ -1,8 +1,5 @@
 package com.is.IS_4k1_TFI_G2.seguridad;
-<<<<<<<< HEAD:src/main/java/com/is/IS_4k1_TFI_G2/seguridad/SecurityConfig.java
-========
 
->>>>>>>> devBrenda:src/main/java/com/is/IS_4k1_TFI_G2/seguridad/SeguridadConfiguracion.java
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

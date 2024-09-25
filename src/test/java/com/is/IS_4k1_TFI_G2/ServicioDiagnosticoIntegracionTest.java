@@ -31,8 +31,9 @@ public class ServicioDiagnosticoIntegracionTest {
         Medico medico = new Medico();
         medico.setCuil(123456789L);
 
-        HistoriaClinica historiaClinica = new HistoriaClinica();
-        repositorioHistoriaClinica.save(historiaClinica);
+        Long idHistoriaClinicaExistente = 101L;
+        HistoriaClinica historiaClinica = repositorioHistoriaClinica.findById(idHistoriaClinicaExistente)
+                .orElseThrow(() -> new RuntimeException("Historia clínica no encontrada"));
 
 
         Diagnostico nuevoDiagnostico = servicioDiagnostico.crearDiagnosticoConPrimeraEvolucion(
