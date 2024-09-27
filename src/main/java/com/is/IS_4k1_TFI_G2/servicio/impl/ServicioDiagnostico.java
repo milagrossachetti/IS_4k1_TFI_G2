@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,12 +20,6 @@ public class ServicioDiagnostico {
 
     @Autowired
     private RepositorioDiagnostico repositorioDiagnostico;
-
-    @Autowired
-    private RepositorioEvolucion repositorioEvolucion;
-
-    @Autowired
-    private RepositorioUsuario repositorioMedico;
 
     @Autowired
     private RepositorioHistoriaClinica repositorioHistoriaClinica;
@@ -71,5 +66,6 @@ public class ServicioDiagnostico {
 
         return nuevoDiagnostico;
     }
+
 
 }

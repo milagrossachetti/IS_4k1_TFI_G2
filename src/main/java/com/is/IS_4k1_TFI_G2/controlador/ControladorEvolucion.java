@@ -1,5 +1,6 @@
 package com.is.IS_4k1_TFI_G2.controlador;
 
+import com.is.IS_4k1_TFI_G2.DTOs.EvolucionDTO;
 import com.is.IS_4k1_TFI_G2.modelo.Diagnostico;
 import com.is.IS_4k1_TFI_G2.modelo.Evolucion;
 import com.is.IS_4k1_TFI_G2.modelo.Usuario;
@@ -64,20 +65,25 @@ public class ControladorEvolucion {
     }
 
     //obtener
-    @GetMapping("/paciente/{pacienteId}/diagnosticos")
-    public ResponseEntity<List<Diagnostico>> obtenerDiagnosticos(@PathVariable Long pacienteId) {
-        List<Diagnostico> diagnosticos = servicioEvolucion.obtenerDiagnosticosDelHistorialClinicoDelPaciente(pacienteId);
+    @GetMapping("/paciente/{pacienteCuil}/diagnosticos")
+    public ResponseEntity<List<Diagnostico>> obtenerDiagnosticos(@PathVariable Long pacienteCuil) {
+        List<Diagnostico> diagnosticos = servicioEvolucion.obtenerDiagnosticosDelHistorialClinicoDelPaciente(pacienteCuil);
         return ResponseEntity.ok(diagnosticos);
     }
 
     //EVOLUCION
     //agregar
     @PostMapping("/diagnostico/{diagnosticoId}/agregar")
-    public ResponseEntity<Evolucion> agregarEvolucion(@PathVariable Long diagnosticoId, @RequestBody String texto) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public ResponseEntity<Evolucion> agregarEvolucion(@PathVariable Long diagnosticoId, @RequestBody EvolucionDTO evolucionDTO) {
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario medicoAutenticado = (Usuario) authentication.getPrincipal();
+        */
+        Long cuilDelMedico = 20123456789L; // Asegúrate de que esto sea un Long (sin guiones)
 
-        Evolucion nuevaEvolucion = servicioEvolucion.agregarEvolucion(diagnosticoId, texto, medicoAutenticado);
+        Usuario medicoAutenticado = repositorioUsuario.findByCuil(cuilDelMedico)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Evolucion nuevaEvolucion = servicioEvolucion.agregarEvolucion(diagnosticoId, evolucionDTO.getTexto(), medicoAutenticado);
         return ResponseEntity.ok(nuevaEvolucion);
     }
 
@@ -91,12 +97,17 @@ public class ControladorEvolucion {
     //modificar
     @PutMapping("/{evolucionId}/modificar")
     public ResponseEntity<Evolucion> modificarEvolucion(@PathVariable Long evolucionId,
-                                                        @RequestBody String nuevoTexto, Usuario medicoAtuenticado) {
+                                                        @RequestBody EvolucionDTO evolucionDTO, Usuario medicoAtuenticado) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario medicoAutenticado = (Usuario) authentication.getPrincipal();
+        */
+        Long cuilDelMedico = 20123456789L; // Asegúrate de que esto sea un Long (sin guiones)
 
-        Evolucion evolucionModificada = servicioEvolucion.modificarEvolucion(evolucionId, nuevoTexto, medicoAutenticado);
+        Usuario medicoAutenticado = repositorioUsuario.findByCuil(cuilDelMedico)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Evolucion evolucionModificada = servicioEvolucion.modificarEvolucion(evolucionId, evolucionDTO.getTexto(), medicoAutenticado);
 
         return ResponseEntity.ok(evolucionModificada);
     }
