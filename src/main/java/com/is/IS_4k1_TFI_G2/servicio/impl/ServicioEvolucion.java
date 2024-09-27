@@ -20,18 +20,13 @@ import java.util.Optional;
 public class ServicioEvolucion {
 
     @Autowired
-    private RepositorioHistoriaClinica repositorioHistorialClinico;
+    private RepositorioHistoriaClinica repositorioHistorialClinica;
 
     @Autowired
     private RepositorioDiagnostico repositorioDiagnostico;
 
     @Autowired
     private RepositorioEvolucion repositorioEvolucion;
-
-    public List<Diagnostico> obtenerDiagnosticosDelHistorialClinicoDelPaciente(Long pacienteCuil){
-        Optional<HistoriaClinica> historialClinico = repositorioHistorialClinico.findByPacienteCuil(pacienteCuil);
-        return historialClinico.get().getDiagnosticos();
-    }
 
     public Diagnostico seleccionarDiagnostico(Long diagnosticoId){
         return repositorioDiagnostico.findById(diagnosticoId)
