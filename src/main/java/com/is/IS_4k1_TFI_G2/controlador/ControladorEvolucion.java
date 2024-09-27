@@ -67,7 +67,7 @@ public class ControladorEvolucion {
     //obtener
     @GetMapping("/paciente/{pacienteCuil}/diagnosticos")
     public ResponseEntity<List<Diagnostico>> obtenerDiagnosticos(@PathVariable Long pacienteCuil) {
-        List<Diagnostico> diagnosticos = servicioDiagnostico.obtenerDiagnosticosDelHistorialClinicoDelPaciente(pacienteCuil);
+        List<Diagnostico> diagnosticos = servicioEvolucion.obtenerDiagnosticosDelHistorialClinicoDelPaciente(pacienteCuil);
         return ResponseEntity.ok(diagnosticos);
     }
 

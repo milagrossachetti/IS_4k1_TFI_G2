@@ -22,12 +22,6 @@ public class ServicioDiagnostico {
     private RepositorioDiagnostico repositorioDiagnostico;
 
     @Autowired
-    private RepositorioEvolucion repositorioEvolucion;
-
-    @Autowired
-    private RepositorioUsuario repositorioMedico;
-
-    @Autowired
     private RepositorioHistoriaClinica repositorioHistoriaClinica;
 
     public Diagnostico crearDiagnosticoConPrimeraEvolucion(Long idHistoriaClinica, String nombreDiagnostico, String textoPrimeraEvolucion, Usuario medico) {
@@ -73,9 +67,5 @@ public class ServicioDiagnostico {
         return nuevoDiagnostico;
     }
 
-    public List<Diagnostico> obtenerDiagnosticosDelHistorialClinicoDelPaciente(Long pacienteCuil){
-        Optional<HistoriaClinica> historialClinica = repositorioHistoriaClinica.findByPacienteCuil(pacienteCuil);
-        return historialClinica.get().getDiagnosticos();
-    }
 
 }
