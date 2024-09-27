@@ -34,46 +34,34 @@ public class ControladorEvolucion {
     //crear
     @PostMapping("/crear-diagnostico")
     public ResponseEntity<Object> crearDiagnostico(@RequestBody DiagnosticoDTO diagnosticoDTO) {
-        try {
-            // Obtiene el médico autenticado desde el contexto de seguridad
-            /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Object principal = authentication.getPrincipal();
+        // Obtiene el médico autenticado desde el contexto de seguridad
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
 
-            if (!(principal instanceof Usuario)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body("Usuario no autenticado o tipo incorrecto.");
-            }
-
-            Usuario medicoAutenticado = (Usuario) principal;*/
-
-            //SIMULACION DEL MEDICO
-            Long cuilDelMedico = 20123456789L; // Asegúrate de que esto sea un Long (sin guiones)
-
-            Usuario medicoAutenticado = repositorioUsuario.findByCuil(cuilDelMedico)
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-            // Llama al servicio para crear un nuevo diagnóstico
-            Diagnostico nuevoDiagnostico = servicioDiagnostico.crearDiagnosticoConPrimeraEvolucion(
-                    diagnosticoDTO.getIdHistoriaClinica(),
-                    diagnosticoDTO.getNombreDiagnostico(),
-                    diagnosticoDTO.getTextoPrimeraEvolucion(),
-                    medicoAutenticado
-            );
-
-            // Retorna una respuesta 201 Created junto con el diagnóstico creado
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoDiagnostico);
-
-        } catch (IllegalArgumentException e) {
-            // Manejo de excepción para argumentos inválidos
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        } catch (RuntimeException e) {
-            // Manejo de excepción para errores de ejecución
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error: " + e.getMessage());
+        if (!(principal instanceof Usuario)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("Usuario no autenticado o tipo incorrecto.");
         }
+
+        Usuario medicoAutenticado = (Usuario) principal;*/
+
+        //SIMULACION DEL MEDICO
+        Long cuilDelMedico = 20123456789L; // Asegúrate de que esto sea un Long (sin guiones)
+
+        Usuario medicoAutenticado = repositorioUsuario.findByCuil(cuilDelMedico)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Llama al servicio para crear un nuevo diagnóstico
+        Diagnostico nuevoDiagnostico = servicioDiagnostico.crearDiagnosticoConPrimeraEvolucion(
+                diagnosticoDTO.getIdHistoriaClinica(),
+                diagnosticoDTO.getNombreDiagnostico(),
+                diagnosticoDTO.getTextoPrimeraEvolucion(),
+                medicoAutenticado
+        );
+
+        // Retorna una respuesta 201 Created junto con el diagnóstico creado
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoDiagnostico);
     }
-
-
 
     //obtener
     @GetMapping("/paciente/{pacienteId}/diagnosticos")
