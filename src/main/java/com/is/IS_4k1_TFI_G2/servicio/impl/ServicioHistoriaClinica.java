@@ -7,6 +7,8 @@ import com.is.IS_4k1_TFI_G2.repositorio.RepositorioPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 
 public class ServicioHistoriaClinica {
@@ -19,7 +21,7 @@ public class ServicioHistoriaClinica {
     @Autowired
     private RepositorioHistoriaClinica repositorioHistoriaClinica;
 
-    public HistoriaClinica crearHistoriaClinica(Long cuil) throws Exception{
+    public void crearHistoriaClinica(Long cuil) throws Exception{
         //busca al paciente usando el servicio paciente
         Paciente paciente = servicioPacienteImpl.buscarPaciente(cuil);
 
@@ -28,9 +30,7 @@ public class ServicioHistoriaClinica {
             throw new Exception("El paciente ya tiene una historia clínica.");
         } else {
             //crea una hc
-            HistoriaClinica historiaClinica = new HistoriaClinica();
-            historiaClinica.setPaciente(paciente);
-            paciente.setHistoriaClinica(historiaClinica);
+            HistoriaClinica historiaClinica = new HistoriaClinica(paciente);
 
             //asocia la hc al paciente
             paciente.setHistoriaClinica(historiaClinica);
@@ -39,8 +39,11 @@ public class ServicioHistoriaClinica {
             repositorioHistoriaClinica.save(historiaClinica);
             repositorioPaciente.save(paciente);
 
-            return historiaClinica;
         }
+    }
 
+    //verifica que el paciente tiene hc
+    public HistoriaClinica tieneHistoriaClinica(Long cuil) {
+        return repositorioHistoriaClinica.findByPacienteCuil(cuil).orElse(null);
     }
 }

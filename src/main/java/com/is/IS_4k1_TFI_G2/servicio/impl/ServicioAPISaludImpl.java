@@ -15,4 +15,9 @@ public class ServicioAPISaludImpl implements ServicioAPISalud {
     public boolean verificarNumeroAfiliado(Long id, String nroAfiliado) {
         return true;
     }
+
+    @Override
+    public boolean verificarMatriculaMedica(Long matriculaMedica) {
+        return true;
+    }
 }

@@ -1,9 +1,9 @@
 package com.is.IS_4k1_TFI_G2.modelo;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.Date;
 
 @Entity
@@ -23,11 +23,15 @@ public class Paciente {
     private String provincia;
     private String pais;
     private String nroAfiliado;
+
     @Enumerated(value = EnumType.STRING)
     private Estado estado;
+
     private Long obraSocialId;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @OneToOne
     @JoinColumn(name = "historia_clinica_id")
+    @JsonManagedReference
     private HistoriaClinica historiaClinica;
 
     public Paciente(Long cuil, Long dni, String nombreCompleto, Date fechaNacimiento, String numeroTelefono, String email, String direccion, String localidad, String provincia, String pais, String nroAfiliado, Long obraSocialId) {
@@ -45,6 +49,25 @@ public class Paciente {
         this.obraSocialId = obraSocialId;
         this.estado = Estado.ACTIVO;
     }
+
+    public void modificarPaciente(Long dni, String nombreCompleto, Date fechaNacimiento, String numeroTelefono, String email, String direccion, String localidad, String provincia, String pais, String nroAfiliado, Long obraSocialId){
+        this.dni = dni;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaNacimiento = fechaNacimiento;
+        this.numeroTelefono = numeroTelefono;
+        this.email = email;
+        this.direccion = direccion;
+        this.localidad = localidad;
+        this.provincia = provincia;
+        this.pais = pais;
+        this.nroAfiliado = nroAfiliado;
+        this.obraSocialId = obraSocialId;
+    }
+
+    public void bajaPaciente(){
+        this.estado = Estado.SUSPENDIDO;
+    }
+
     public Paciente() {
     }
 }

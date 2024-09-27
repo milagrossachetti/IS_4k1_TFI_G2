@@ -8,4 +8,5 @@ public interface ServicioPaciente {
     void crearPaciente(Paciente paciente) throws Exception;
     void modificarPaciente(Long cuil, Paciente paciente) throws Exception;
     void eliminarPaciente(Long cuil);
+    Paciente buscarPaciente(Long cuil);
 }

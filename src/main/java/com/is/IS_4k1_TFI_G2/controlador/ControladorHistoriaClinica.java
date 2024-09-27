@@ -1,6 +1,8 @@
 package com.is.IS_4k1_TFI_G2.controlador;
 
 
+import com.is.IS_4k1_TFI_G2.modelo.HistoriaClinica;
+import com.is.IS_4k1_TFI_G2.modelo.Paciente;
 import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioHistoriaClinica;
 import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioPacienteImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ public class ControladorHistoriaClinica {
     @Autowired
     private ServicioPacienteImpl servicioPacienteImpl;
 
-    @PostMapping("/crear-historia-clinica/{cuil}") //define el endpoint para crear una historia clínica. Usa el método HTTP POST porque estamos enviando datos para crear un nuevo recurso
+    @PostMapping("/crear/{cuil}") //define el endpoint para crear una historia clínica. Usa el método HTTP POST porque estamos enviando datos para crear un nuevo recurso
     public ResponseEntity<String> crearHistoriaClinica(@PathVariable Long cuil) {
         //@PathVariable obtiene el cuil desde la URL
         try {
@@ -29,10 +31,10 @@ public class ControladorHistoriaClinica {
         }
     }
 
-    @GetMapping("/tiene-historia-clinica/{cuil}")
-    public ResponseEntity<Boolean> verificarHistoriaClinica(@PathVariable Long cuil) {
-        boolean tieneHistoria = servicioPacienteImpl.tieneHistoriaClinica(cuil);
-        return ResponseEntity.ok(tieneHistoria);
+    @GetMapping("/tiene/{cuil}")
+    public ResponseEntity<HistoriaClinica> tieneHistoriaClinica(@PathVariable Long cuil) {
+        HistoriaClinica tieneHistoriaClinica = servicioHistoriaClinica.tieneHistoriaClinica(cuil);
+        return ResponseEntity.ok(tieneHistoriaClinica);
     }
 }
 

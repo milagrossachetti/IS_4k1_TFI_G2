@@ -1,8 +1,6 @@
 package com.is.IS_4k1_TFI_G2.servicio.impl;
 
-import com.is.IS_4k1_TFI_G2.modelo.Estado;
 import com.is.IS_4k1_TFI_G2.modelo.Paciente;
-import com.is.IS_4k1_TFI_G2.repositorio.RepositorioHistoriaClinica;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioPaciente;
 import com.is.IS_4k1_TFI_G2.servicio.ServicioAPISalud;
 import com.is.IS_4k1_TFI_G2.servicio.ServicioPaciente;
@@ -11,23 +9,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static com.is.IS_4k1_TFI_G2.modelo.Estado.SUSPENDIDO;
+
 @Service
 public class ServicioPacienteImpl implements ServicioPaciente {
     @Autowired
     RepositorioPaciente repositorioPaciente;
     @Autowired
     ServicioAPISalud servicioAPISalud;
-    @Autowired
-    private RepositorioHistoriaClinica historiaClinicaRepositorio;
-
 
     //al crear el paciente se crea automáticamente con el estado "activo"
     @Override
     public void crearPaciente(Paciente paciente) throws Exception {
         Optional<Paciente> existePaciente = repositorioPaciente.findById(paciente.getCuil());
-        boolean verificarNroAfiliado = servicioAPISalud.verificarNumeroAfiliado(paciente.getObraSocialId(), paciente.getNroAfiliado());
-        boolean verificarObraSocial = servicioAPISalud.verificarObraSocial(paciente.getObraSocialId());
-        if (existePaciente.isEmpty() && verificarNroAfiliado && verificarObraSocial){
+        verificarDatosObraSocial(paciente.getObraSocialId(), paciente.getNroAfiliado());
+        if (existePaciente.isEmpty()){
             Paciente pacienteCreado = new Paciente(paciente.getCuil(), paciente.getDni(),
                     paciente.getNombreCompleto(), paciente.getFechaNacimiento(),
                     paciente.getNumeroTelefono(), paciente.getEmail(),
@@ -42,47 +38,37 @@ public class ServicioPacienteImpl implements ServicioPaciente {
     //Como es posible modificar el nro de afiliado y la obra social, se debe verificar nuevamente
     @Override
     public void modificarPaciente(Long cuil, Paciente pacienteActualizado) throws Exception {
-        Paciente bsucarPaciente = buscarPaciente(cuil);
-        boolean verificarNroAfiliado = servicioAPISalud.verificarNumeroAfiliado(pacienteActualizado.getObraSocialId(), pacienteActualizado.getNroAfiliado());
-        boolean verificarObraSocial = servicioAPISalud.verificarObraSocial(pacienteActualizado.getObraSocialId());
-        if (verificarObraSocial && verificarNroAfiliado){
-            ingresarCambios(bsucarPaciente, pacienteActualizado);
-            repositorioPaciente.save(bsucarPaciente);
-        }else {
-            throw new Exception("Los datos de la obra social no son correctos");
+        Paciente pacienteEncontrado = buscarPaciente(cuil);
+        if (pacienteEncontrado.getEstado().equals(SUSPENDIDO)){
+            throw new Exception("No se puede modificar porque el paciente está SUSPENDIDO");
         }
-    }
-
-    private void ingresarCambios(Paciente pacienteExistente, Paciente pacienteActualizado) {
-        pacienteExistente.setCuil(pacienteActualizado.getCuil());
-        pacienteExistente.setDni(pacienteActualizado.getDni());
-        pacienteExistente.setNombreCompleto(pacienteActualizado.getNombreCompleto());
-        pacienteExistente.setFechaNacimiento(pacienteActualizado.getFechaNacimiento());
-        pacienteExistente.setNumeroTelefono(pacienteActualizado.getNumeroTelefono());
-        pacienteExistente.setEmail(pacienteActualizado.getEmail());
-        pacienteExistente.setDireccion(pacienteActualizado.getDireccion());
-        pacienteExistente.setLocalidad(pacienteActualizado.getLocalidad());
-        pacienteExistente.setProvincia(pacienteActualizado.getProvincia());
-        pacienteExistente.setPais(pacienteActualizado.getPais());
-        pacienteExistente.setNroAfiliado(pacienteActualizado.getNroAfiliado());
-        pacienteExistente.setObraSocialId(pacienteActualizado.getObraSocialId());
-    }
-
-    public Paciente buscarPaciente(Long cuil){
-        Paciente pacienteExistente = repositorioPaciente.findById(cuil).orElseThrow(()-> new RuntimeException("El paciente no existe en el sistema"));
-        return pacienteExistente;
+        verificarDatosObraSocial(pacienteActualizado.getObraSocialId(), pacienteActualizado.getNroAfiliado());
+        pacienteEncontrado.modificarPaciente(pacienteActualizado.getDni(), pacienteActualizado.getNombreCompleto(), pacienteActualizado.getFechaNacimiento(),
+                pacienteActualizado.getNumeroTelefono(), pacienteActualizado.getEmail(), pacienteActualizado.getDireccion(), pacienteActualizado.getLocalidad(),
+                pacienteActualizado.getProvincia(), pacienteActualizado.getPais(), pacienteActualizado.getNroAfiliado(), pacienteActualizado.getObraSocialId());
+        repositorioPaciente.save(pacienteEncontrado);
     }
 
     //Solo al eliminar el paciente se pasa del estado "activo" a "suspendido"
     @Override
     public void eliminarPaciente(Long cuil) {
-        Paciente buscarPaciente = buscarPaciente(cuil);
-        buscarPaciente.setEstado(Estado.SUSPENDIDO);
-        repositorioPaciente.save(buscarPaciente);
+        Paciente pacienteEncontrado = buscarPaciente(cuil);
+        pacienteEncontrado.bajaPaciente();
+        repositorioPaciente.save(pacienteEncontrado);
     }
 
-    //verifica que el paciente tiene hc
-    public boolean tieneHistoriaClinica(Long cuil) {
-        return historiaClinicaRepositorio.existsByPacienteCuil(cuil);
+    public Paciente buscarPaciente(Long cuil){
+        return repositorioPaciente.findById(cuil).orElseThrow(()-> new RuntimeException("El paciente no existe en el sistema"));
+    }
+
+
+    public boolean verificarDatosObraSocial(Long obraSocialId, String nroAfiliado) throws Exception {
+        boolean verificarNroAfiliado = servicioAPISalud.verificarNumeroAfiliado(obraSocialId, nroAfiliado);
+        boolean verificarObraSocial = servicioAPISalud.verificarObraSocial(obraSocialId);
+        boolean esCorrecto = false;
+        if (verificarObraSocial && verificarNroAfiliado){
+            esCorrecto = true;
+        } else throw new Exception("Los datos de la obra social no son correctos");
+        return esCorrecto;
     }
 }
