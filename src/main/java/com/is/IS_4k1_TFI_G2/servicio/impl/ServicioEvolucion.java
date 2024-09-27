@@ -1,9 +1,9 @@
-package com.is.IS_4k1_TFI_G2.servicios;
+package com.is.IS_4k1_TFI_G2.servicio.impl;
 
-import com.is.IS_4k1_TFI_G2.modelos.Diagnostico;
-import com.is.IS_4k1_TFI_G2.modelos.Evolucion;
-import com.is.IS_4k1_TFI_G2.modelos.HistoriaClinica;
-import com.is.IS_4k1_TFI_G2.modelos.Medico;
+import com.is.IS_4k1_TFI_G2.modelo.Diagnostico;
+import com.is.IS_4k1_TFI_G2.modelo.Evolucion;
+import com.is.IS_4k1_TFI_G2.modelo.HistoriaClinica;
+import com.is.IS_4k1_TFI_G2.modelo.Usuario;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioDiagnostico;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioEvolucion;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioHistoriaClinica;
@@ -43,7 +43,7 @@ public class ServicioEvolucion {
         return diagnostico.getEvoluciones();
     }
 
-    public Evolucion agregarEvolucion(Long diagnosticoId, String texto, Medico medico) {
+    public Evolucion agregarEvolucion(Long diagnosticoId, String texto, Usuario medico) {
         Diagnostico diagnostico = seleccionarDiagnostico(diagnosticoId);
 
         Evolucion nuevaEvolucion = new Evolucion(texto, LocalDateTime.now(), medico);
@@ -55,11 +55,11 @@ public class ServicioEvolucion {
         return nuevaEvolucion;
     }
 
-    public Evolucion modificarEvolucion(Long evolucionId, String nuevoTexto, Medico medicoAutenticado) {
+    public Evolucion modificarEvolucion(Long evolucionId, String nuevoTexto, Usuario medicoAutenticado) {
         Evolucion evolucion = repositorioEvolucion.findById(evolucionId)
                 .orElseThrow(() -> new RuntimeException("Evolución no encontrada"));
 
-        if (!evolucion.getMedico().getId().equals(medicoAutenticado.getId())) {
+        if (!evolucion.getUsuario().getCuil().equals(medicoAutenticado.getCuil())) {
             throw new RuntimeException("Solo el médico que creó la evolución puede modificarla.");
         }
 
