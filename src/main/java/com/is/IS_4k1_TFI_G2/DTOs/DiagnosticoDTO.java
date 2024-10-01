@@ -4,16 +4,23 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 @Getter
 @Setter
-
 public class DiagnosticoDTO {
+
     @NotNull
     private Long idHistoriaClinica;
 
     @NotNull
     private String nombreDiagnostico;
-    private String textoPrimeraEvolucion;
+
+    private EvolucionDTO evolucionDTO;
+
+    public DiagnosticoDTO() {}
+
+    public DiagnosticoDTO(Long idHistoriaClinica, String nombreDiagnostico, EvolucionDTO evolucionDTO) {
+        this.idHistoriaClinica = idHistoriaClinica;
+        this.nombreDiagnostico = nombreDiagnostico;
+        this.evolucionDTO = evolucionDTO;
+    }
 }

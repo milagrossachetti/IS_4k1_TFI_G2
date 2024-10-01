@@ -1,20 +1,20 @@
 package com.is.IS_4k1_TFI_G2.controlador;
 
 import com.is.IS_4k1_TFI_G2.DTOs.EvolucionDTO;
+import com.is.IS_4k1_TFI_G2.DTOs.DiagnosticoDTO;
 import com.is.IS_4k1_TFI_G2.modelo.Diagnostico;
 import com.is.IS_4k1_TFI_G2.modelo.Evolucion;
 import com.is.IS_4k1_TFI_G2.modelo.Usuario;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioUsuario;
+import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioEmail;
 import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioDiagnostico;
 import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioEvolucion;
-import com.is.IS_4k1_TFI_G2.DTOs.DiagnosticoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
+
 
 import java.util.List;
 
@@ -29,86 +29,72 @@ public class ControladorEvolucion {
     private ServicioDiagnostico servicioDiagnostico;
 
     @Autowired
+    private ServicioEmail emailService;
+
+    @Autowired
     private RepositorioUsuario repositorioUsuario;
 
-    //DIAGNOSTICO
-    //crear
+    // CREAR DIAGNÓSTICO CON PRIMERA EVOLUCIÓN
     @PostMapping("/crear-diagnostico")
-    public ResponseEntity<Object> crearDiagnostico(@RequestBody DiagnosticoDTO diagnosticoDTO) {
-        // Obtiene el médico autenticado desde el contexto de seguridad
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = authentication.getPrincipal();
-
-        if (!(principal instanceof Usuario)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Usuario no autenticado o tipo incorrecto.");
-        }
-
-        Usuario medicoAutenticado = (Usuario) principal;*/
-
-        //SIMULACION DEL MEDICO
-        Long cuilDelMedico = 20123456789L; // Asegúrate de que esto sea un Long (sin guiones)
+    public ResponseEntity<Object> crearDiagnostico(@RequestBody DiagnosticoDTO diagnosticoDTO, @RequestParam(required = false) String emailManual) {
+        Long cuilDelMedico = 20123456789L; // Simulación del CUIL del médico autenticado
 
         Usuario medicoAutenticado = repositorioUsuario.findByCuil(cuilDelMedico)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Llama al servicio para crear un nuevo diagnóstico
         Diagnostico nuevoDiagnostico = servicioDiagnostico.crearDiagnosticoConPrimeraEvolucion(
                 diagnosticoDTO.getIdHistoriaClinica(),
                 diagnosticoDTO.getNombreDiagnostico(),
-                diagnosticoDTO.getTextoPrimeraEvolucion(),
-                medicoAutenticado
+                diagnosticoDTO.getEvolucionDTO(),
+                medicoAutenticado,
+                emailManual
         );
 
-        // Retorna una respuesta 201 Created junto con el diagnóstico creado
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoDiagnostico);
     }
 
-    //obtener
+    // OBTENER DIAGNÓSTICOS DE UN PACIENTE
     @GetMapping("/paciente/{pacienteCuil}/diagnosticos")
     public ResponseEntity<List<Diagnostico>> obtenerDiagnosticos(@PathVariable Long pacienteCuil) {
         List<Diagnostico> diagnosticos = servicioEvolucion.obtenerDiagnosticosDelHistorialClinicoDelPaciente(pacienteCuil);
         return ResponseEntity.ok(diagnosticos);
     }
 
-    //EVOLUCION
-    //agregar
+    // AGREGAR UNA EVOLUCIÓN A UN DIAGNÓSTICO
     @PostMapping("/diagnostico/{diagnosticoId}/agregar")
-    public ResponseEntity<Evolucion> agregarEvolucion(@PathVariable Long diagnosticoId, @RequestBody EvolucionDTO evolucionDTO) {
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Usuario medicoAutenticado = (Usuario) authentication.getPrincipal();
-        */
-        Long cuilDelMedico = 20123456789L; // Asegúrate de que esto sea un Long (sin guiones)
+    public ResponseEntity<Evolucion> agregarEvolucion(
+            @PathVariable Long diagnosticoId,
+            @RequestBody EvolucionDTO evolucionDTO,
+            @RequestParam(required = false) String emailManual) {
+        Long cuilDelMedico = 20123456789L; // Simulación del CUIL del médico autenticado
 
         Usuario medicoAutenticado = repositorioUsuario.findByCuil(cuilDelMedico)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Evolucion nuevaEvolucion = servicioEvolucion.agregarEvolucion(diagnosticoId, evolucionDTO.getTexto(), medicoAutenticado);
+        Evolucion nuevaEvolucion = servicioEvolucion.agregarEvolucion(diagnosticoId, evolucionDTO, medicoAutenticado, emailManual);
         return ResponseEntity.ok(nuevaEvolucion);
     }
 
-    //obtener
+
+    // OBTENER TODAS LAS EVOLUCIONES DE UN DIAGNÓSTICO
     @GetMapping("/diagnostico/{diagnosticoId}/evoluciones")
     public ResponseEntity<List<Evolucion>> obtenerEvoluciones(@PathVariable Long diagnosticoId) {
         List<Evolucion> evoluciones = servicioEvolucion.obtenerEvolucionesDelDiagnostico(diagnosticoId);
         return ResponseEntity.ok(evoluciones);
     }
 
-    //modificar
+    // MODIFICAR UNA EVOLUCIÓN
     @PutMapping("/{evolucionId}/modificar")
-    public ResponseEntity<Evolucion> modificarEvolucion(@PathVariable Long evolucionId,
-                                                        @RequestBody EvolucionDTO evolucionDTO, Usuario medicoAtuenticado) {
-
-        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Usuario medicoAutenticado = (Usuario) authentication.getPrincipal();
-        */
-        Long cuilDelMedico = 20123456789L; // Asegúrate de que esto sea un Long (sin guiones)
+    public ResponseEntity<Evolucion> modificarEvolucion(@PathVariable Long evolucionId, @RequestBody EvolucionDTO evolucionDTO) {
+        Long cuilDelMedico = 20123456789L; // Simulación del CUIL del médico autenticado
 
         Usuario medicoAutenticado = repositorioUsuario.findByCuil(cuilDelMedico)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Evolucion evolucionModificada = servicioEvolucion.modificarEvolucion(evolucionId, evolucionDTO.getTexto(), medicoAutenticado);
+
+        Evolucion evolucionModificada = servicioEvolucion.modificarEvolucion(evolucionId, evolucionDTO, medicoAutenticado);
 
         return ResponseEntity.ok(evolucionModificada);
     }
+
 }
