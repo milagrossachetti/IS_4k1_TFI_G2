@@ -1,4 +1,4 @@
-package com.is.IS_4k1_TFI_G2.servicios;
+package com.is.IS_4k1_TFI_G2.servicio;
 
 public interface ServicioAPISalud {
     boolean verificarObraSocial(Long id);

@@ -1,6 +1,6 @@
-package com.is.IS_4k1_TFI_G2.servicios.impl;
+package com.is.IS_4k1_TFI_G2.servicio.impl;
 
-import com.is.IS_4k1_TFI_G2.servicios.ServicioAPISalud;
+import com.is.IS_4k1_TFI_G2.servicio.ServicioAPISalud;
 import org.springframework.stereotype.Service;
 
 @Service
