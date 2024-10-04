@@ -2,6 +2,8 @@ package com.is.IS_4k1_TFI_G2.controlador;
 
 import com.is.IS_4k1_TFI_G2.modelo.Paciente;
 import com.is.IS_4k1_TFI_G2.servicio.ServicioPaciente;
+import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioHistoriaClinica;
+import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioPacienteImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class ControladorPaciente {
     @Autowired
     ServicioPaciente servicioPaciente;
+
+    @Autowired
+    private ServicioPacienteImpl servicioPacienteImpl;
+
+    @Autowired
+    private ServicioHistoriaClinica servicioHistoriaClinica;
 
     @PostMapping("/crear")
     public ResponseEntity<String> crearPaciente(@RequestBody Paciente paciente){
@@ -42,4 +50,11 @@ public class ControladorPaciente {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @GetMapping("/buscar/{cuil}")
+    public ResponseEntity<Paciente> verificarPaciente(@PathVariable Long cuil) {
+       Paciente existePaciente = servicioPacienteImpl.buscarPaciente(cuil);
+       return ResponseEntity.ok(existePaciente);
+    }
+
 }

@@ -1,16 +1,15 @@
 package com.is.IS_4k1_TFI_G2.modelo;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.*;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@Builder
+
 public class Paciente {
     @Id
     private Long cuil;
@@ -24,13 +23,16 @@ public class Paciente {
     private String provincia;
     private String pais;
     private String nroAfiliado;
+
     @Enumerated(value = EnumType.STRING)
     private Estado estado;
-    private Long obraSocialId;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "historia_clinica_id")
-    private HistoriaClinica historiaClinica;
 
+    private Long obraSocialId;
+
+    @OneToOne
+    @JoinColumn(name = "historia_clinica_id")
+    @JsonManagedReference
+    private HistoriaClinica historiaClinica;
 
     public Paciente(Long cuil, Long dni, String nombreCompleto, Date fechaNacimiento, String numeroTelefono, String email, String direccion, String localidad, String provincia, String pais, String nroAfiliado, Long obraSocialId) {
         this.cuil = cuil;
@@ -65,4 +67,8 @@ public class Paciente {
     public void bajaPaciente(){
         this.estado = Estado.SUSPENDIDO;
     }
+
+    public Paciente() {
+    }
 }
+

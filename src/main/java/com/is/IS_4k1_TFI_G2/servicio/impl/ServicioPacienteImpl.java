@@ -1,4 +1,5 @@
 package com.is.IS_4k1_TFI_G2.servicio.impl;
+
 import com.is.IS_4k1_TFI_G2.modelo.Paciente;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioPaciente;
 import com.is.IS_4k1_TFI_G2.servicio.ServicioAPISalud;
@@ -57,9 +58,9 @@ public class ServicioPacienteImpl implements ServicioPaciente {
     }
 
     public Paciente buscarPaciente(Long cuil){
-        Paciente pacienteExistente = repositorioPaciente.findById(cuil).orElseThrow(()-> new RuntimeException("El paciente no existe en el sistema"));
-        return pacienteExistente;
+        return repositorioPaciente.findById(cuil).orElseThrow(()-> new RuntimeException("El paciente no existe en el sistema"));
     }
+
 
     public boolean verificarDatosObraSocial(Long obraSocialId, String nroAfiliado) throws Exception {
         boolean verificarNroAfiliado = servicioAPISalud.verificarNumeroAfiliado(obraSocialId, nroAfiliado);
