@@ -50,8 +50,7 @@ public class Paciente {
         this.estado = Estado.ACTIVO;
     }
 
-    public void modificarPaciente(Long dni, String nombreCompleto, Date fechaNacimiento, String numeroTelefono, String email, String direccion, String localidad, String provincia, String pais, String nroAfiliado, Long obraSocialId){
-        this.dni = dni;
+    public void modificarPaciente(String nombreCompleto, Date fechaNacimiento, String numeroTelefono, String email, String direccion, String localidad, String provincia, String pais, String nroAfiliado, Long obraSocialId){
         this.nombreCompleto = nombreCompleto;
         this.fechaNacimiento = fechaNacimiento;
         this.numeroTelefono = numeroTelefono;

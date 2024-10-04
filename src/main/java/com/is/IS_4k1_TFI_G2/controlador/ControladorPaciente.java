@@ -1,9 +1,8 @@
 package com.is.IS_4k1_TFI_G2.controlador;
 
+import com.is.IS_4k1_TFI_G2.DTOs.PacienteDTO;
 import com.is.IS_4k1_TFI_G2.modelo.Paciente;
 import com.is.IS_4k1_TFI_G2.servicio.ServicioPaciente;
-import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioHistoriaClinica;
-import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioPacienteImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,46 +14,28 @@ public class ControladorPaciente {
     @Autowired
     ServicioPaciente servicioPaciente;
 
-    @Autowired
-    private ServicioPacienteImpl servicioPacienteImpl;
-
-    @Autowired
-    private ServicioHistoriaClinica servicioHistoriaClinica;
-
     @PostMapping("/crear")
-    public ResponseEntity<String> crearPaciente(@RequestBody Paciente paciente){
-        try {
-            servicioPaciente.crearPaciente(paciente);
-            return ResponseEntity.status(HttpStatus.CREATED).body("El paciente fue creado con éxito");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<RespuestaAPI<Paciente>> crearPaciente(@RequestBody Paciente paciente) throws Exception {
+        RespuestaAPI<Paciente> response = new RespuestaAPI<>(servicioPaciente.crearPaciente(paciente), "Paciente creado exitosamente");
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/modificar/{cuil}")
-    public ResponseEntity<String> modificarPaciente(@PathVariable("cuil") Long cuil, @RequestBody Paciente paciente){
-        try {
-            servicioPaciente.modificarPaciente(cuil, paciente);
-            return ResponseEntity.status(HttpStatus.OK).body("El paciente fue modificado con éxito");
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<RespuestaAPI<Paciente>> modificarPaciente(@PathVariable("cuil") Long cuil, @RequestBody PacienteDTO paciente) throws Exception {
+        RespuestaAPI<Paciente> response = new RespuestaAPI<>(servicioPaciente.modificarPaciente(cuil, paciente), "Paciente modificado exitosamente");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/eliminar/{cuil}")
-    public ResponseEntity<String> eliminarPaciente(@PathVariable("cuil") Long cuil){
-        try{
-            servicioPaciente.eliminarPaciente(cuil);
-            return ResponseEntity.status(HttpStatus.OK).body("El paciente fue eliminado con éxito");
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @DeleteMapping("/eliminar/{cuil}")
+    public ResponseEntity<RespuestaAPI<Paciente>> eliminarPaciente(@PathVariable("cuil") Long cuil){
+        RespuestaAPI<Paciente> response = new RespuestaAPI<>(servicioPaciente.eliminarPaciente(cuil), "Paciente eliminado exitosamente");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/buscar/{cuil}")
-    public ResponseEntity<Paciente> verificarPaciente(@PathVariable Long cuil) {
-       Paciente existePaciente = servicioPacienteImpl.buscarPaciente(cuil);
-       return ResponseEntity.ok(existePaciente);
+    public ResponseEntity<RespuestaAPI<Paciente>> verificarPaciente(@PathVariable Long cuil) {
+        RespuestaAPI<Paciente> response = new RespuestaAPI<>(servicioPaciente.buscarPaciente(cuil), "Se obtuvo el paciente");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
