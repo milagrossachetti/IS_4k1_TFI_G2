@@ -53,8 +53,8 @@ public class ControladorPaciente {
 
     @GetMapping("/buscar/{cuil}")
     public ResponseEntity<Paciente> verificarPaciente(@PathVariable Long cuil) {
-       Paciente existePaciente = servicioPacienteImpl.buscarPaciente(cuil);
-       return ResponseEntity.ok(existePaciente);
+        Paciente existePaciente = servicioPacienteImpl.buscarPaciente(cuil);
+        return ResponseEntity.ok(existePaciente);
     }
 
 }
