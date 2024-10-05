@@ -9,16 +9,17 @@ import java.util.List;
 @Getter
 @Setter
 public class PlantillaLaboratorioDTO {
-    private String tipoEstudio;
+    private List<String> tiposEstudios;
     private List<String> items;
     private String estado;
 
     public PlantillaLaboratorioDTO() {
     }
 
-    public PlantillaLaboratorioDTO(String tipoEstudio, List<String> items, String estado) {
-        this.tipoEstudio = tipoEstudio;
-        this.items = TipoEstudioLaboratorio.getItemsPorEstudio(tipoEstudio);
+    public PlantillaLaboratorioDTO(List<String> tiposEstudios, List<String> items, String estado) {
+        this.tiposEstudios = tiposEstudios;
+        this.items = items;
         this.estado = estado;
     }
+
 }

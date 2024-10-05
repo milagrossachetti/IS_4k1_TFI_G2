@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ServicioEvolucion {
@@ -51,14 +49,14 @@ public class ServicioEvolucion {
         Diagnostico diagnostico = seleccionarDiagnostico(diagnosticoId);
 
         PlantillaControl plantillaControl = convertirPlantillaControlDTO(evolucionDTO.getPlantillaControl());
-        List<PlantillaLaboratorio> plantillasLaboratorio = convertirPlantillaLaboratorioDTOs(evolucionDTO.getPlantillasLaboratorio());
+        PlantillaLaboratorio plantillaLaboratorio = convertirPlantillaLaboratorioDTO(evolucionDTO.getPlantillaLaboratorio());
 
         Evolucion nuevaEvolucion = new Evolucion(
                 evolucionDTO.getTexto(),
                 LocalDateTime.now(),
                 medico,
                 plantillaControl,
-                plantillasLaboratorio,
+                plantillaLaboratorio,
                 ""
         );
 
@@ -88,6 +86,14 @@ public class ServicioEvolucion {
         return nuevaEvolucion;
     }
 
+    private PlantillaLaboratorio convertirPlantillaLaboratorioDTO(PlantillaLaboratorioDTO dto) {
+        if (dto == null) {
+            return null;
+        }
+        return new PlantillaLaboratorio(dto.getTiposEstudios(), dto.getItems(), dto.getEstado());
+    }
+
+
     private PlantillaControl convertirPlantillaControlDTO(PlantillaControlDTO dto) {
         if (dto == null) {
             return null;
@@ -101,16 +107,6 @@ public class ServicioEvolucion {
                 dto.getNivelAzucar()
         );
     }
-
-    private List<PlantillaLaboratorio> convertirPlantillaLaboratorioDTOs(List<PlantillaLaboratorioDTO> dtos) {
-        if (dtos == null) {
-            return new ArrayList<>();
-        }
-        return dtos.stream()
-                .map(dto -> new PlantillaLaboratorio(dto.getTipoEstudio()))
-                .collect(Collectors.toList());
-    }
-
 
     public Evolucion modificarEvolucion(Long evolucionId, EvolucionDTO evolucionDTO, Usuario medicoAutenticado) {
         Evolucion evolucion = repositorioEvolucion.findById(evolucionId)
@@ -144,37 +140,22 @@ public class ServicioEvolucion {
                 ));
             }
 
-            if (evolucionDTO.getPlantillasLaboratorio() != null) {
-                List<PlantillaLaboratorio> plantillasActuales = evolucion.getPlantillasLaboratorio();
+            PlantillaLaboratorio plantillaLaboratorio = evolucion.getPlantillaLaboratorio();
+            PlantillaLaboratorioDTO plantillaLaboratorioDTO = evolucionDTO.getPlantillaLaboratorio();
 
-                evolucionDTO.getPlantillasLaboratorio().forEach(dto -> {
-                    PlantillaLaboratorio plantillaExistenteLab = plantillasActuales.stream()
-                            .filter(plantilla -> plantilla.getTipoEstudio().equals(dto.getTipoEstudio()))
-                            .findFirst()
-                            .orElse(null);
-
-                    if (plantillaExistenteLab != null) {
-                        if ("Anulado".equals(dto.getEstado())) {
-                            plantillaExistenteLab.anular();
-                        }
-                    }
-                });
-
-                evolucion.setPlantillasLaboratorio(plantillasActuales);
+            if (plantillaLaboratorio != null && plantillaLaboratorioDTO != null) {
+                if ("Anulado".equals(plantillaLaboratorioDTO.getEstado())) {
+                    plantillaLaboratorio.anular();
+                }
             }
 
-            boolean hayPlantillasLaboratorio = evolucion.getPlantillasLaboratorio().stream()
-                    .anyMatch(plantilla -> !"Anulado".equals(plantilla.getEstado()));
+            try {
+                String pdfPath = GeneradorPDF.generarPdfLaboratorio(evolucion);
+                System.out.println("PDF generado o actualizado en: " + pdfPath);
 
-            if (hayPlantillasLaboratorio) {
-                try {
-                    String pdfPath = GeneradorPDF.generarPdfLaboratorio(evolucion);
-                    System.out.println("PDF generado o actualizado en: " + pdfPath);
-
-                    evolucion.setRutaPdf(pdfPath);
-                } catch (Exception e) {
-                    throw new RuntimeException("Error al generar el PDF: " + e.getMessage());
-                }
+                evolucion.setRutaPdf(pdfPath);
+            } catch (Exception e) {
+                throw new RuntimeException("Error al generar el PDF: " + e.getMessage());
             }
 
             repositorioEvolucion.save(evolucion);
@@ -184,5 +165,6 @@ public class ServicioEvolucion {
             throw new RuntimeException("La evolución no puede ser modificada después de 48 horas.");
         }
     }
+
 
 }

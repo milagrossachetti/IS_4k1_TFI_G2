@@ -11,9 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ServicioDiagnostico {
@@ -54,14 +51,14 @@ public class ServicioDiagnostico {
         nuevoDiagnostico.setHistoriaClinica(historiaClinica);
 
         PlantillaControl plantillaControl = convertirPlantillaControlDTO(evolucionDTO.getPlantillaControl());
-        List<PlantillaLaboratorio> plantillasLaboratorio = convertirPlantillaLaboratorioDTOs(evolucionDTO.getPlantillasLaboratorio());
+        PlantillaLaboratorio plantillaLaboratorio = convertirPlantillaLaboratorioDTO(evolucionDTO.getPlantillaLaboratorio());
 
         Evolucion primeraEvolucion = new Evolucion(
                 evolucionDTO.getTexto(),
                 LocalDateTime.now(),
                 medico,
                 plantillaControl,
-                plantillasLaboratorio,
+                plantillaLaboratorio,
                 ""
         );
 
@@ -75,10 +72,7 @@ public class ServicioDiagnostico {
         }
 
         // Generar el PDF
-        boolean hayPlantillasLaboratorio = plantillasLaboratorio.stream()
-                .anyMatch(plantilla -> !"Anulado".equals(plantilla.getEstado()));
-
-        if (hayPlantillasLaboratorio) {
+        if (plantillaLaboratorio != null && !"Anulado".equals(plantillaLaboratorio.getEstado())) {
             try {
                 String pdfPath = GeneradorPDF.generarPdfLaboratorio(primeraEvolucion);
                 System.out.println("PDF generado en: " + pdfPath);
@@ -114,12 +108,10 @@ public class ServicioDiagnostico {
         );
     }
 
-    private List<PlantillaLaboratorio> convertirPlantillaLaboratorioDTOs(List<PlantillaLaboratorioDTO> dtos) {
-        if (dtos == null) {
-            return new ArrayList<>();
+    private PlantillaLaboratorio convertirPlantillaLaboratorioDTO(PlantillaLaboratorioDTO dto) {
+        if (dto == null) {
+            return null;
         }
-        return dtos.stream()
-                .map(dto -> new PlantillaLaboratorio(dto.getTipoEstudio()))
-                .collect(Collectors.toList());
+        return new PlantillaLaboratorio(dto.getTiposEstudios(), dto.getItems(), dto.getEstado());
     }
 }

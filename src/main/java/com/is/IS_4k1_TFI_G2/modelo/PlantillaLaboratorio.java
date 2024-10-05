@@ -2,23 +2,33 @@ package com.is.IS_4k1_TFI_G2.modelo;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 public class PlantillaLaboratorio {
-    private String tipoEstudio;
+    private List<String> tiposEstudios;
     private List<String> items;
     private String estado;
 
     public PlantillaLaboratorio() {
+        this.tiposEstudios = new ArrayList<>();
+        this.items = new ArrayList<>();
+        this.estado = "Activo";
     }
 
-    public PlantillaLaboratorio(String tipoEstudio) {
-        this.tipoEstudio = tipoEstudio;
-        this.items = TipoEstudioLaboratorio.getItemsPorEstudio(tipoEstudio);
-        this.estado = "Activo";
+    public PlantillaLaboratorio(List<String> tiposEstudios, List<String> items, String estado) {
+        this.tiposEstudios = tiposEstudios;
+        this.items = items;
+        this.estado = estado;
+    }
+
+    public void agregarItem(String tipoEstudio, String item) {
+        if (!tiposEstudios.contains(tipoEstudio)) {
+            tiposEstudios.add(tipoEstudio);
+        }
+        items.add(item);
     }
 
     public void anular() {

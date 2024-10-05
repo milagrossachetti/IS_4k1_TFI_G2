@@ -30,8 +30,7 @@ public class Evolucion {
 
     private PlantillaControl plantillaControl;
 
-    @OneToMany
-    private List<PlantillaLaboratorio> plantillasLaboratorio;
+    private PlantillaLaboratorio plantillaLaboratorio;
 
     private String rutaPdf;
 
@@ -44,18 +43,19 @@ public class Evolucion {
     }
 
     public Evolucion(String texto, LocalDateTime fechaEvolucion, Usuario usuario,
-                     PlantillaControl plantillaControl, List<PlantillaLaboratorio> plantillasLaboratorio, String rutaPdf) {
+                     PlantillaControl plantillaControl, PlantillaLaboratorio plantillaLaboratorio, String rutaPdf) {
         this.texto = texto;
         this.fechaEvolucion = LocalDateTime.now();
         this.usuario = usuario;
         this.plantillaControl = plantillaControl;
-        this.plantillasLaboratorio = plantillasLaboratorio;
+        this.plantillaLaboratorio = plantillaLaboratorio;
         this.rutaPdf = rutaPdf;
     }
 
-    public void anularPlantillaLaboratorio(PlantillaLaboratorio plantillaLaboratorio) {
-        if (plantillasLaboratorio.contains(plantillaLaboratorio)) {
+    public void anularPlantillaLaboratorio() {
+        if (plantillaLaboratorio != null) {
             plantillaLaboratorio.anular();
         }
     }
+
 }

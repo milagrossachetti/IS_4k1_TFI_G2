@@ -10,14 +10,16 @@ import java.util.List;
 public class EvolucionDTO {
     private String texto;
     private PlantillaControlDTO plantillaControl;
-    private List<PlantillaLaboratorioDTO> plantillasLaboratorio;
+    private PlantillaLaboratorioDTO plantillaLaboratorio;
+
 
     public EvolucionDTO() {
     }
 
-    public EvolucionDTO(String texto, PlantillaControlDTO plantillaControl, List<PlantillaLaboratorioDTO> plantillasLaboratorio) {
+    public EvolucionDTO(String texto, PlantillaControlDTO plantillaControl, PlantillaLaboratorioDTO plantillaLaboratorio) {
         this.texto = texto;
         this.plantillaControl = plantillaControl;
-        this.plantillasLaboratorio = plantillasLaboratorio;
+        this.plantillaLaboratorio = plantillaLaboratorio;
     }
+
 }

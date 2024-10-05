@@ -72,8 +72,16 @@ public class ControladorEvolucion {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         Evolucion nuevaEvolucion = servicioEvolucion.agregarEvolucion(diagnosticoId, evolucionDTO, medicoAutenticado, emailManual);
-        return ResponseEntity.ok(nuevaEvolucion);
+
+        // Obtener la ruta del PDF generado en la evolución
+        String pdfPath = nuevaEvolucion.getRutaPdf();
+
+        // Devolver la evolución y agregar la URL del PDF
+        return ResponseEntity.ok()
+                .header("pdf-url", "/ruta/del/pdf/" + pdfPath)  // URL del PDF generada
+                .body(nuevaEvolucion);
     }
+
 
 
     // OBTENER TODAS LAS EVOLUCIONES DE UN DIAGNÓSTICO

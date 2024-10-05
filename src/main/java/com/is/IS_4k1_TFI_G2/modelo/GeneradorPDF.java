@@ -7,8 +7,8 @@ import com.itextpdf.layout.element.Paragraph;
 import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 
-
 public class GeneradorPDF {
+
     public static String generarPdfLaboratorio(Evolucion evolucion) throws Exception {
         String pdfPath = "pedido_laboratorio_" + evolucion.getId() + ".pdf";
         PdfWriter writer = new PdfWriter(new FileOutputStream(pdfPath));
@@ -28,9 +28,19 @@ public class GeneradorPDF {
 
         document.add(new Paragraph("Fecha de emisión: " + LocalDateTime.now().toString()));
 
-        document.add(new Paragraph("Tipo de Estudio: " + evolucion.getPlantillasLaboratorio().get(0).getTipoEstudio()));
-        document.add(new Paragraph("Ítems del estudio: "));
-        evolucion.getPlantillasLaboratorio().get(0).getItems().forEach(item -> document.add(new Paragraph(item)));
+        PlantillaLaboratorio plantillaLaboratorio = evolucion.getPlantillaLaboratorio();
+
+        if (plantillaLaboratorio != null) {
+            document.add(new Paragraph("Tipos de Estudio Solicitados:"));
+            for (String tipoEstudio : plantillaLaboratorio.getTiposEstudios()) {
+                document.add(new Paragraph("Tipo de Estudio: " + tipoEstudio));
+
+                document.add(new Paragraph("Ítems del estudio:"));
+                plantillaLaboratorio.getItems().forEach(item -> document.add(new Paragraph("- " + item)));
+            }
+        } else {
+            document.add(new Paragraph("No se solicitaron estudios de laboratorio."));
+        }
 
         document.close();
 
