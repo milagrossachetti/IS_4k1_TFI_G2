@@ -2,6 +2,7 @@ package com.is.IS_4k1_TFI_G2.modelo;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.antlr.v4.runtime.misc.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,25 +13,25 @@ import lombok.*;
 public class Usuario {
 
     @Id
-    private String cuil;
+    private Long cuil;
 
     @Column(nullable = false)
-    private String dni;
+    private Long dni;
 
     @Column(nullable = false)
     private String nombreCompleto;
 
     @Column(nullable = false)
-    private String matricula; // Solo si es médico
+    private Long matricula; // Solo si es médico
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String especialidad; // Solo si es médico
 
     @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
-    private String telefono;
+    private Long telefono;
 
     @Column(nullable = false)
     private String direccion;
@@ -44,106 +45,27 @@ public class Usuario {
     @Column(nullable = false)
     private String pais;
 
+    @Column(nullable = false)
+    @NotNull
+    private String rol; // Nuevo campo para diferenciar roles (MEDICO/RECEPCIONISTA)
+
     private boolean activo; // Para bajas lógicas
 
-    public Usuario(String cuil, String dni, String matricula, String especialidad, String nombreCompleto, String email, String telefono, String pais, String localidad, String direccion, String provincia) {
-    }
-
-    // Getters y Setters
-
-    public String getCuil() {return cuil; }
-
-    public void setCuil(String cuil) {
+    public Usuario(Long cuil, Long dni, Long matricula, String especialidad, String nombreCompleto, String email, Long telefono, String pais, String localidad, String direccion, String provincia, String rol) {
         this.cuil = cuil;
-    }
-
-    public String getDni() {
-        return dni;
-    }
-
-    public void setDni(String dni) {
         this.dni = dni;
-    }
-
-    public String getNombreCompleto() {
-        return nombreCompleto;
-    }
-
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
         this.matricula = matricula;
-    }
-
-    public String getEspecialidad() {
-        return especialidad;
-    }
-
-    public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
+        this.nombreCompleto = nombreCompleto;
         this.email = email;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public String getLocalidad() {
-        return localidad;
-    }
-
-    public void setLocalidad(String localidad) {
-        this.localidad = localidad;
-    }
-
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
         this.pais = pais;
+        this.localidad = localidad;
+        this.direccion = direccion;
+        this.provincia = provincia;
+        this.rol = rol;
+        this.activo = true; // Por defecto activo
     }
 
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
-    }
 }
-
 
