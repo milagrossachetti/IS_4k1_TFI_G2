@@ -1,17 +1,5 @@
 package com.is.IS_4k1_TFI_G2.servicio.impl;
 
-/*
-Interfaz (Interface): Define el contrato o los métodos que deben ser implementados. No contiene la
-lógica de negocio, solo las firmas de los métodos. Por ejemplo, UserService define los
-métodos como createUser, deleteUser, y verifyMedicalLicense.
-
-Implementación (Impl): Es la clase que proporciona
-la lógica específica para los métodos definidos en la
-interfaz. En el caso de UserServiceImpl, esta clase implementa
-los métodos createUser, deleteUser, y verifyMedicalLicense con
-la lógica de negocio real que realiza esas operaciones.
-*/
-
 import com.is.IS_4k1_TFI_G2.modelo.Usuario;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioUsuario;
 import com.is.IS_4k1_TFI_G2.servicio.ServicioAPISalud;
