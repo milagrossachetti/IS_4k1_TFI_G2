@@ -9,6 +9,7 @@ import com.is.IS_4k1_TFI_G2.servicio.ServicioPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.is.IS_4k1_TFI_G2.modelo.Estado.SUSPENDIDO;
@@ -62,6 +63,11 @@ public class ServicioPacienteImpl implements ServicioPaciente {
 
     public Paciente buscarPaciente(Long cuil){
         return repositorioPaciente.findById(cuil).orElseThrow(()-> new ElPacienteNoExisteExcepcion("El paciente no existe en el sistema"));
+    }
+
+    @Override
+    public List<Paciente> obtenerPacientes() {
+        return repositorioPaciente.findAll();
     }
 
 
