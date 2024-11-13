@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 public class Evolucion {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime fechaEvolucion;
     private String texto;
@@ -28,8 +28,10 @@ public class Evolucion {
     @JoinColumn(name = "medico_id", nullable = false)
     private Usuario usuario;
 
+    @OneToOne
     private PlantillaControl plantillaControl;
 
+    @OneToOne
     private PlantillaLaboratorio plantillaLaboratorio;
 
     private String rutaPdf;

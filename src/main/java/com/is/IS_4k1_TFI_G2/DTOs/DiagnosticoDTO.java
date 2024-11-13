@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 @Getter
 @Setter
-public class DiagnosticoDTO {
 
+public class DiagnosticoDTO {
     @NotNull
     private Long idHistoriaClinica;
 

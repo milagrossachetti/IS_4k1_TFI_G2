@@ -4,9 +4,7 @@ import com.is.IS_4k1_TFI_G2.DTOs.EvolucionDTO;
 import com.is.IS_4k1_TFI_G2.DTOs.PlantillaControlDTO;
 import com.is.IS_4k1_TFI_G2.DTOs.PlantillaLaboratorioDTO;
 import com.is.IS_4k1_TFI_G2.modelo.*;
-import com.is.IS_4k1_TFI_G2.repositorio.RepositorioDiagnostico;
-import com.is.IS_4k1_TFI_G2.repositorio.RepositorioEvolucion;
-import com.is.IS_4k1_TFI_G2.repositorio.RepositorioHistoriaClinica;
+import com.is.IS_4k1_TFI_G2.repositorio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +28,12 @@ public class ServicioEvolucion {
     @Autowired
     private ServicioEmail emailService;
 
+    @Autowired
+    private RepositorioPlantillaLaboratorio repositorioPlantillaLaboratorio;
+
+    @Autowired
+    private RepositorioPlantillaControl repositorioPlantillaControl;
+
     public List<Diagnostico> obtenerDiagnosticosDelHistorialClinicoDelPaciente(Long pacienteCuil) {
         Optional<HistoriaClinica> historialClinica = repositorioHistoriaClinica.findByPacienteCuil(pacienteCuil);
         return historialClinica.get().getDiagnosticos();
@@ -51,6 +55,13 @@ public class ServicioEvolucion {
         PlantillaControl plantillaControl = convertirPlantillaControlDTO(evolucionDTO.getPlantillaControl());
         PlantillaLaboratorio plantillaLaboratorio = convertirPlantillaLaboratorioDTO(evolucionDTO.getPlantillaLaboratorio());
 
+        if (plantillaControl != null){
+            plantillaControl = repositorioPlantillaControl.save(plantillaControl);
+        }
+        if (plantillaLaboratorio != null){
+            plantillaLaboratorio = repositorioPlantillaLaboratorio.save(plantillaLaboratorio);
+        }
+
         Evolucion nuevaEvolucion = new Evolucion(
                 evolucionDTO.getTexto(),
                 LocalDateTime.now(),
@@ -64,7 +75,6 @@ public class ServicioEvolucion {
         repositorioEvolucion.save(nuevaEvolucion);
         repositorioDiagnostico.save(diagnostico);
 
-        // Generar el PDF
         try {
             String pdfPath = GeneradorPDF.generarPdfLaboratorio(nuevaEvolucion);
             nuevaEvolucion.setRutaPdf(pdfPath);
@@ -93,11 +103,11 @@ public class ServicioEvolucion {
         return new PlantillaLaboratorio(dto.getTiposEstudios(), dto.getItems(), dto.getEstado());
     }
 
-
     private PlantillaControl convertirPlantillaControlDTO(PlantillaControlDTO dto) {
         if (dto == null) {
             return null;
         }
+
         return new PlantillaControl(
                 dto.getPeso(),
                 dto.getAltura(),

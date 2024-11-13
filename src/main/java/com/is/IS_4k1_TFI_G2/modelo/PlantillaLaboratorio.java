@@ -1,5 +1,9 @@
 package com.is.IS_4k1_TFI_G2.modelo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.ArrayList;
@@ -7,7 +11,12 @@ import java.util.List;
 
 @Getter
 @Setter
+@Entity
+
 public class PlantillaLaboratorio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private List<String> tiposEstudios;
     private List<String> items;
     private String estado;
