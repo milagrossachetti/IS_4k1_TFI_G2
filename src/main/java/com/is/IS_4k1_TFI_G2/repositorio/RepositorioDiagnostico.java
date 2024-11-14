@@ -9,8 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface RepositorioDiagnostico extends JpaRepository<Diagnostico, Long> {
+
     Optional<Diagnostico> findByNombreAndHistoriaClinicaId(String nombre, Long historiaClinicaId);
 
     List<Diagnostico> findByHistoriaClinica(HistoriaClinica historiaClinica);
 
+    boolean existsByNombreAndHistoriaClinicaId(String nombre, Long historiaClinicaId);
 }

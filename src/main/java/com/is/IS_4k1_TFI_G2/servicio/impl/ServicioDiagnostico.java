@@ -1,16 +1,14 @@
 package com.is.IS_4k1_TFI_G2.servicio.impl;
 
 import com.is.IS_4k1_TFI_G2.DTOs.EvolucionDTO;
-import com.is.IS_4k1_TFI_G2.DTOs.PlantillaControlDTO;
-import com.is.IS_4k1_TFI_G2.DTOs.PlantillaLaboratorioDTO;
 import com.is.IS_4k1_TFI_G2.modelo.*;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioDiagnostico;
-import com.is.IS_4k1_TFI_G2.repositorio.RepositorioEvolucion;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioHistoriaClinica;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class ServicioDiagnostico {
@@ -22,96 +20,50 @@ public class ServicioDiagnostico {
     private RepositorioHistoriaClinica repositorioHistoriaClinica;
 
     @Autowired
-    private RepositorioEvolucion repositorioEvolucion;
+    private ServicioEvolucion servicioEvolucion;
 
-    @Autowired
-    private ServicioEmail emailService;
+    private TipoDiagnostico tipoDiagnostico;
 
-    public Diagnostico crearDiagnosticoConPrimeraEvolucion(Long idHistoriaClinica, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico, String emailManual) {
-        if (idHistoriaClinica == null) {
-            throw new IllegalArgumentException("El ID de historia clínica no puede ser nulo");
-        }
-
+    // Método privado para crear diagnóstico con primera evolución sin validación de TipoDiagnostico
+    private Diagnostico crearDiagnosticoConPrimeraEvolucion(Long idHistoriaClinica, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico, String emailManual) {
         HistoriaClinica historiaClinica = repositorioHistoriaClinica.findById(idHistoriaClinica)
                 .orElseThrow(() -> new RuntimeException("Historia clínica no encontrada"));
-
-        if (nombreDiagnostico == null || nombreDiagnostico.isEmpty()) {
-            throw new IllegalArgumentException("El nombre del diagnóstico no puede ser nulo.");
-        }
-
-        if (repositorioDiagnostico.findByNombreAndHistoriaClinicaId(nombreDiagnostico, idHistoriaClinica).isPresent()) {
-            throw new IllegalArgumentException("Ya existe un diagnóstico con ese nombre.");
-        }
-
-        if (evolucionDTO.getTexto() == null || evolucionDTO.getTexto().isEmpty()) {
-            throw new IllegalArgumentException("El texto de la primera evolución no puede ser nulo o vacío");
-        }
 
         Diagnostico nuevoDiagnostico = new Diagnostico(nombreDiagnostico, medico);
         nuevoDiagnostico.setHistoriaClinica(historiaClinica);
 
-        PlantillaControl plantillaControl = convertirPlantillaControlDTO(evolucionDTO.getPlantillaControl());
-        PlantillaLaboratorio plantillaLaboratorio = convertirPlantillaLaboratorioDTO(evolucionDTO.getPlantillaLaboratorio());
-
-        Evolucion primeraEvolucion = new Evolucion(
-                evolucionDTO.getTexto(),
-                LocalDateTime.now(),
-                medico,
-                plantillaControl,
-                plantillaLaboratorio,
-                ""
-        );
-
+        Evolucion primeraEvolucion = servicioEvolucion.crearEvolucion(nuevoDiagnostico, evolucionDTO, medico);
         nuevoDiagnostico.agregarEvolucion(primeraEvolucion);
 
         try {
             repositorioDiagnostico.save(nuevoDiagnostico);
-            System.out.println("Diagnóstico creado y guardado con éxito.");
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar el diagnóstico: " + e.getMessage(), e);
         }
 
-        // Generar el PDF
-        if (plantillaLaboratorio != null && !"Anulado".equals(plantillaLaboratorio.getEstado())) {
-            try {
-                String pdfPath = GeneradorPDF.generarPdfLaboratorio(primeraEvolucion);
-                System.out.println("PDF generado en: " + pdfPath);
-
-                primeraEvolucion.setRutaPdf(pdfPath);
-                repositorioEvolucion.save(primeraEvolucion);
-
-                Paciente paciente = historiaClinica.getPaciente();
-                String emailDestino = (emailManual != null && !emailManual.isEmpty()) ? emailManual : paciente.getEmail();
-
-                emailService.enviarPdfPorEmail(emailDestino, "Pedido de laboratorio - Policlinica", "Adjuntamos su PDF", pdfPath);
-                System.out.println("Email enviado a: " + emailDestino);
-
-            } catch (Exception e) {
-                throw new RuntimeException("Error al generar o enviar el PDF: " + e.getMessage());
-            }
-        }
+        servicioEvolucion.generarPdfYGuardarRuta(primeraEvolucion);
+        servicioEvolucion.enviarPdfPorEmail(primeraEvolucion, emailManual);
 
         return nuevoDiagnostico;
     }
 
-    private PlantillaControl convertirPlantillaControlDTO(PlantillaControlDTO dto) {
-        if (dto == null) {
-            return null;
+    // Método público que verifica si el diagnóstico está en TipoDiagnostico
+    public Diagnostico crearDiagnosticoPermitido(Long idHistoriaClinica, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico, String emailManual) {
+        try {
+            tipoDiagnostico = TipoDiagnostico.fromNombre(nombreDiagnostico);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("El diagnóstico ingresado no está permitido.");
         }
-        return new PlantillaControl(
-                dto.getPeso(),
-                dto.getAltura(),
-                dto.getPresion(),
-                dto.getPulso(),
-                dto.getSaturacion(),
-                dto.getNivelAzucar()
-        );
+        return crearDiagnosticoConPrimeraEvolucion(idHistoriaClinica, tipoDiagnostico.getNombre(), evolucionDTO, medico, emailManual);
     }
 
-    private PlantillaLaboratorio convertirPlantillaLaboratorioDTO(PlantillaLaboratorioDTO dto) {
-        if (dto == null) {
-            return null;
-        }
-        return new PlantillaLaboratorio(dto.getTiposEstudios(), dto.getItems(), dto.getEstado());
+    // Método público para crear un diagnóstico no permitido en TipoDiagnostico para un paciente específico
+    public Diagnostico crearDiagnosticoNoPermitido(Long idHistoriaClinica, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico, String emailManual) {
+        return crearDiagnosticoConPrimeraEvolucion(idHistoriaClinica, nombreDiagnostico, evolucionDTO, medico, emailManual);
+    }
+
+    // Verificar si el diagnóstico ya está en la historia clínica
+    public boolean existeDiagnosticoEnHistoriaClinica(Long historiaClinicaId, String nombreDiagnostico) {
+        return repositorioDiagnostico.existsByNombreAndHistoriaClinicaId(nombreDiagnostico, historiaClinicaId);
     }
 }

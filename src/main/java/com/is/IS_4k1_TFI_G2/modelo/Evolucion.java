@@ -34,23 +34,27 @@ public class Evolucion {
     @OneToOne
     private PlantillaLaboratorio plantillaLaboratorio;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "evolucion_id")
+    private List<Receta> recetas;
+
     private String rutaPdf;
 
     public Evolucion() {}
 
     public Evolucion(String texto, LocalDateTime fechaEvolucion, Usuario usuario) {
-        this.texto = texto;
-        this.fechaEvolucion = LocalDateTime.now();
-        this.usuario = usuario;
+        this(texto, fechaEvolucion, usuario, null, null, null, null);
     }
 
     public Evolucion(String texto, LocalDateTime fechaEvolucion, Usuario usuario,
-                     PlantillaControl plantillaControl, PlantillaLaboratorio plantillaLaboratorio, String rutaPdf) {
+                     PlantillaControl plantillaControl, PlantillaLaboratorio plantillaLaboratorio,
+                     List<Receta> recetas, String rutaPdf) {
         this.texto = texto;
-        this.fechaEvolucion = LocalDateTime.now();
+        this.fechaEvolucion = fechaEvolucion;
         this.usuario = usuario;
         this.plantillaControl = plantillaControl;
         this.plantillaLaboratorio = plantillaLaboratorio;
+        this.recetas = recetas;
         this.rutaPdf = rutaPdf;
     }
 
@@ -60,4 +64,9 @@ public class Evolucion {
         }
     }
 
+    public void anularReceta(Receta receta) {
+        if (recetas != null && recetas.contains(receta)) {
+            receta.anular();
+        }
+    }
 }
