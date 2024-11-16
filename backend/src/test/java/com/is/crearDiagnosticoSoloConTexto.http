@@ -1,0 +1,10 @@
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  }
+}

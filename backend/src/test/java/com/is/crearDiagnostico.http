@@ -1,0 +1,33 @@
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
