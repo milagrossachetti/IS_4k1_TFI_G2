@@ -1,0 +1,55 @@
+{
+  "id": 11,
+  "nombre": "Fiebre del dengue hemorrágico",
+  "usuario": {
+    "cuil": 123456789,
+    "dni": 12345678,
+    "nombreCompleto": "Dr. Juan Pérez",
+    "matricula": 98765,
+    "especialidad": "Cardiología",
+    "email": "medico@ejemplo.com",
+    "telefono": 1122334455,
+    "direccion": "Calle Falsa 123",
+    "localidad": "Ciudad Ejemplo",
+    "provincia": "Buenos Aires",
+    "pais": "Argentina",
+    "rol": "MEDICO",
+    "activo": true
+  },
+  "evoluciones": [
+    {
+      "id": 6,
+      "fechaEvolucion": "2024-11-16T15:01:53.9655974",
+      "texto": null,
+      "plantillaControl": {
+        "id": 12,
+        "peso": 70.5,
+        "altura": 1.75,
+        "presion": "120/60",
+        "pulso": 72,
+        "saturacion": 98,
+        "nivelAzucar": 50.0
+      },
+      "plantillaLaboratorio": null,
+      "recetas": [],
+      "rutaPdf": ""
+    },
+    {
+      "id": 6,
+      "fechaEvolucion": "2024-11-16T15:01:53.9655974",
+      "texto": null,
+      "plantillaControl": {
+        "id": 12,
+        "peso": 70.5,
+        "altura": 1.75,
+        "presion": "120/60",
+        "pulso": 72,
+        "saturacion": 98,
+        "nivelAzucar": 50.0
+      },
+      "plantillaLaboratorio": null,
+      "recetas": [],
+      "rutaPdf": ""
+    }
+  ]
+}

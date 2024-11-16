@@ -1,0 +1,39 @@
+{
+  "id": 10,
+  "nombre": "Fiebre tifoidea",
+  "usuario": {
+    "cuil": 123456789,
+    "dni": 12345678,
+    "nombreCompleto": "Dr. Juan Pérez",
+    "matricula": 98765,
+    "especialidad": "Cardiología",
+    "email": "medico@ejemplo.com",
+    "telefono": 1122334455,
+    "direccion": "Calle Falsa 123",
+    "localidad": "Ciudad Ejemplo",
+    "provincia": "Buenos Aires",
+    "pais": "Argentina",
+    "rol": "MEDICO",
+    "activo": true
+  },
+  "evoluciones": [
+    {
+      "id": 5,
+      "fechaEvolucion": "2024-11-16T14:58:04.3610285",
+      "texto": "Paciente presenta fiebre persistente y malestar general.",
+      "plantillaControl": null,
+      "plantillaLaboratorio": null,
+      "recetas": [],
+      "rutaPdf": ""
+    },
+    {
+      "id": 5,
+      "fechaEvolucion": "2024-11-16T14:58:04.3610285",
+      "texto": "Paciente presenta fiebre persistente y malestar general.",
+      "plantillaControl": null,
+      "plantillaLaboratorio": null,
+      "recetas": [],
+      "rutaPdf": ""
+    }
+  ]
+}

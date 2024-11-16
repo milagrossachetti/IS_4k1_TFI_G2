@@ -1,0 +1,81 @@
+{
+  "id": 9,
+  "nombre": "Fiebre tifoidea",
+  "usuario": {
+    "cuil": 123456789,
+    "dni": 12345678,
+    "nombreCompleto": "Dr. Juan Pérez",
+    "matricula": 98765,
+    "especialidad": "Cardiología",
+    "email": "medico@ejemplo.com",
+    "telefono": 1122334455,
+    "direccion": "Calle Falsa 123",
+    "localidad": "Ciudad Ejemplo",
+    "provincia": "Buenos Aires",
+    "pais": "Argentina",
+    "rol": "MEDICO",
+    "activo": true
+  },
+  "evoluciones": [
+    {
+      "id": 4,
+      "fechaEvolucion": "2024-11-16T14:55:34.8667513",
+      "texto": "Paciente presenta fiebre persistente y malestar general.",
+      "plantillaControl": {
+        "id": 11,
+        "peso": 70.5,
+        "altura": 1.75,
+        "presion": "120/60",
+        "pulso": 72,
+        "saturacion": 98,
+        "nivelAzucar": 50.0
+      },
+      "plantillaLaboratorio": {
+        "id": 11,
+        "tiposEstudios": [
+          "Hemograma completo",
+          "Lipidograma"
+        ],
+        "items": [
+          "Globulos Rojos (Eritrocitos)",
+          "Globulos Blancos (Leucocitos)",
+          "Colesterol total",
+          "Triglicéridos"
+        ],
+        "estado": "Activo"
+      },
+      "recetas": [],
+      "rutaPdf": "pedido_laboratorio_4.pdf"
+    },
+    {
+      "id": 4,
+      "fechaEvolucion": "2024-11-16T14:55:34.8667513",
+      "texto": "Paciente presenta fiebre persistente y malestar general.",
+      "plantillaControl": {
+        "id": 11,
+        "peso": 70.5,
+        "altura": 1.75,
+        "presion": "120/60",
+        "pulso": 72,
+        "saturacion": 98,
+        "nivelAzucar": 50.0
+      },
+      "plantillaLaboratorio": {
+        "id": 11,
+        "tiposEstudios": [
+          "Hemograma completo",
+          "Lipidograma"
+        ],
+        "items": [
+          "Globulos Rojos (Eritrocitos)",
+          "Globulos Blancos (Leucocitos)",
+          "Colesterol total",
+          "Triglicéridos"
+        ],
+        "estado": "Activo"
+      },
+      "recetas": [],
+      "rutaPdf": "pedido_laboratorio_4.pdf"
+    }
+  ]
+}

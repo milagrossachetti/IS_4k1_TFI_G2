@@ -1,0 +1,1208 @@
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 278
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre del dengue hemorrágico",
+  "evolucionDTO": {
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    }
+  }
+}
+
+<> 2024-11-16T150154.201.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 167
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  }
+}
+
+<> 2024-11-16T145804.201.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T145535.201.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T134704.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T134304.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T134236.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T133740.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T130139.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T125650.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T122016.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T121547.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T121146.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T120906.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T115954.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T115755.400.txt
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T115733.400.txt
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T115248.400.txt
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T115241.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T115230.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T114921.400.txt
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 700
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T114049.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 701
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "plantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "recetas": []
+  },
+  "emailManual": "lalala@gmail.com"
+}
+
+<> 2024-11-16T113544.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 685
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general.",
+    "plantillaControl": {
+      "peso": 70.5,
+      "altura": 1.75,
+      "presion": "120/60",
+      "pulso": 72,
+      "saturacion": 98,
+      "nivelAzucar": 50
+    },
+    "PlantillaLaboratorio": {
+      "tiposEstudios": [
+        "Hemograma completo",
+        "Lipidograma"
+      ],
+      "items": [
+        "Globulos Rojos (Eritrocitos)",
+        "Globulos Blancos (Leucocitos)",
+        "Colesterol total",
+        "Triglicéridos"
+      ],
+      "estado": "Activo"
+    },
+    "emailDestino": "lalala@gmail.com"
+  }
+}
+
+<> 2024-11-16T111540.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 167
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  }
+}
+
+<> 2024-11-16T110939.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 167
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  }
+}
+
+<> 2024-11-16T110629.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 190
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  },
+  "emailManual": null
+}
+
+<> 2024-11-16T110614.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 167
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  }
+}
+
+<> 2024-11-16T110540.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 167
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  }
+}
+
+<> 2024-11-15T131127.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 192
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  },
+  "medicoId": 123456789
+}
+
+<> 2024-11-15T130335.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 192
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  },
+  "medicoId": 123456789
+}
+
+<> 2024-11-15T130328.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 192
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  },
+  "medicoId": 123456789
+}
+
+<> 2024-11-15T130205.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 194
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  },
+  "medicoId": 20123456789
+}
+
+<> 2024-11-15T125515.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 188
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  },
+  "medicoId": 12345
+}
+
+<> 2024-11-15T125427.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 167
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "FIEBRE_TIFOIDEA",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  }
+}
+
+<> 2024-11-15T124930.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 167
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "idHistoriaClinica": 1,
+  "nombreDiagnostico": "Fiebre tifoidea",
+  "evolucionDTO": {
+    "texto": "Paciente presenta fiebre persistente y malestar general."
+  }
+}
+
+<> 2024-11-15T124901.500.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 98
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "nombre": "DiagnosticoPermitido",
+  "descripcion": "Descripción del diagnóstico permitido"
+}
+
+<> 2024-11-15T124509.500.json
+
+###
+
+POST http://localhost:8080/crear-diagnostico
+Content-Type: application/json
+Content-Length: 98
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "nombre": "DiagnosticoPermitido",
+  "descripcion": "Descripción del diagnóstico permitido"
+}
+
+<> 2024-11-15T124426.404.json
+
+###
+
+POST http://localhost:8080/evoluciones/crear-diagnostico
+Content-Type: application/json
+Content-Length: 98
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "nombre": "DiagnosticoPermitido",
+  "descripcion": "Descripción del diagnóstico permitido"
+}
+
+<> 2024-11-15T124236.500.json
+
+###
+
