@@ -22,10 +22,10 @@ public class Usuario {
     private String nombreCompleto;
 
     @Column(nullable = false)
-    private Long matricula; // Solo si es médico
+    private Long matricula;
 
     @Column(nullable = true)
-    private String especialidad; // Solo si es médico
+    private String especialidad;
 
     @Column(nullable = false)
     private String email;
@@ -47,9 +47,9 @@ public class Usuario {
 
     @Column(nullable = false)
     @NotNull
-    private String rol; // Nuevo campo para diferenciar roles (MEDICO/RECEPCIONISTA)
+    private String rol;
 
-    private boolean activo; // Para bajas lógicas
+    private boolean activo;
 
     public Usuario(Long cuil, Long dni, Long matricula, String especialidad, String nombreCompleto, String email, Long telefono, String pais, String localidad, String direccion, String provincia, String rol) {
         this.cuil = cuil;
@@ -64,7 +64,7 @@ public class Usuario {
         this.direccion = direccion;
         this.provincia = provincia;
         this.rol = rol;
-        this.activo = true; // Por defecto activo
+        this.activo = true;
     }
 
 }

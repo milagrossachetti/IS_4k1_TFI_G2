@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.List;
 
 @Service
 public class ServicioEmail {
@@ -16,24 +17,40 @@ public class ServicioEmail {
     @Autowired
     private JavaMailSender mailSender;
 
-    // Método para enviar un email con un archivo PDF adjunto
     public void enviarPdfPorEmail(String emailDestino, String asunto, String cuerpo, String rutaPdf) throws MessagingException {
-        // Crear el mensaje MIME
         MimeMessage mensaje = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mensaje, true); // true para multipart (para adjuntar archivos)
 
-        // Configurar los detalles del email
         helper.setTo(emailDestino);
         helper.setSubject(asunto);
-        helper.setText(cuerpo, true); // true para permitir HTML en el cuerpo del email
+        helper.setText(cuerpo, true);
 
-        // Adjuntar el archivo PDF
         File archivo = new File(rutaPdf);
         if (archivo.exists() && archivo.isFile()) {
             FileSystemResource archivoPdf = new FileSystemResource(archivo);
             helper.addAttachment(archivoPdf.getFilename(), archivoPdf);
         } else {
             throw new MessagingException("El archivo PDF no existe o la ruta es incorrecta.");
+        }
+
+        mailSender.send(mensaje);
+    }
+    public void enviarPdfPorEmailConAdjuntos(String emailDestino, String asunto, String cuerpo, List<String> rutasPdf) throws MessagingException {
+        MimeMessage mensaje = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mensaje, true); // true para multipart (para adjuntar archivos)
+
+        helper.setTo(emailDestino);
+        helper.setSubject(asunto);
+        helper.setText(cuerpo, true);
+
+        for (String rutaPdf : rutasPdf) {
+            File archivo = new File(rutaPdf);
+            if (archivo.exists() && archivo.isFile()) {
+                FileSystemResource archivoPdf = new FileSystemResource(archivo);
+                helper.addAttachment(archivoPdf.getFilename(), archivoPdf);
+            } else {
+                throw new MessagingException("El archivo PDF no existe o la ruta es incorrecta: " + rutaPdf);
+            }
         }
 
         mailSender.send(mensaje);

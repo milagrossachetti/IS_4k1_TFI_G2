@@ -22,4 +22,5 @@ public class PlantillaLaboratorioDTO {
         this.estado = estado;
     }
 
+
 }

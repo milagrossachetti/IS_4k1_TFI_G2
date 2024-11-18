@@ -76,8 +76,9 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
         Optional<Usuario> usuario = repositorioUsuario.findByCuil(cuil);
 
         if (usuario.isPresent()) {
-            // Eliminar el usuario si existe
-            repositorioUsuario.delete(usuario.get());
+            Usuario usuarioExistente = usuario.get();
+            usuarioExistente.setActivo(false);
+            repositorioUsuario.delete(usuarioExistente);
         } else {
             // Lanzar excepción si el usuario no existe
             throw new Exception("El usuario no existe en el sistema.");

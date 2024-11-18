@@ -23,7 +23,7 @@ public class ControladorUsuario {
     @Autowired
     RepositorioUsuario repositorioUsuario;
 
-    // Crear un nuevo usuario
+    //anda
     @PostMapping("/crear")
     public ResponseEntity<String> crearUsuario(@RequestBody Usuario usuario) throws Exception {
         try{
@@ -34,7 +34,7 @@ public class ControladorUsuario {
         }
     }
 
-    // Eliminar  usuario
+    //anda
     @DeleteMapping("/eliminar/{cuil}")
     public ResponseEntity<String> eliminarUsuario(@PathVariable("cuil") Long cuil) {
         try {
@@ -45,6 +45,7 @@ public class ControladorUsuario {
         }
     }
 
+    //anda
     @GetMapping("/buscar/{cuil}")
     public ResponseEntity<Usuario> buscarUsuario(@PathVariable Long cuil) {
         Usuario buscarUsuario = servicioUsuario.buscarUsuario(cuil);

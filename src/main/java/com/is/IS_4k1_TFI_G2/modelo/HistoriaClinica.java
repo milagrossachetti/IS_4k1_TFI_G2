@@ -42,7 +42,7 @@ public class HistoriaClinica {
 
     @PrePersist
     protected void onCreate() {
-        this.fechaCreacion = LocalDate.now(); // Asigna la fecha de creación aquí
+        this.fechaCreacion = LocalDate.now();
     }
 
     public void agregarDiagnostico(Diagnostico diagnostico){

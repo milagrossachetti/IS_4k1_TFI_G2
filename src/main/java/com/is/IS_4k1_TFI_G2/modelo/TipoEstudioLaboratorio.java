@@ -1,6 +1,10 @@
 package com.is.IS_4k1_TFI_G2.modelo;
 
+import lombok.Getter;
+
 import java.util.List;
+
+@Getter
 
 public enum TipoEstudioLaboratorio {
     HEMOGRAMA_COMPLETO("Hemograma completo", List.of( "Globulos Rojos (Eritrocitos)", "Globulos Blancos (Leucocitos)", "Plaquetas (Trombocitos)", "Hemoglobina (Hb)", "Hematrocito(Hto)", "Indices eritrocitarios")),
@@ -20,14 +24,6 @@ public enum TipoEstudioLaboratorio {
     TipoEstudioLaboratorio(String nombreEstudio, List<String> items) {
         this.nombreEstudio = nombreEstudio;
         this.items = items;
-    }
-
-    public String getNombreEstudio() {
-        return nombreEstudio;
-    }
-
-    public List<String> getItems() {
-        return items;
     }
 
     public static List<String> getItemsPorEstudio(String nombreEstudio) {

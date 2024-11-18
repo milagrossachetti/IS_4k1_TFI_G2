@@ -1,8 +1,6 @@
 package com.is.IS_4k1_TFI_G2.controlador;
 
-
 import com.is.IS_4k1_TFI_G2.modelo.HistoriaClinica;
-import com.is.IS_4k1_TFI_G2.modelo.Paciente;
 import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioHistoriaClinica;
 import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioPacienteImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController //indica que esta clase es un controlador REST que maneja solicitudes HTTP
-@RequestMapping("/historia-clinica") //define la ruta base para todas las solicitudes en este controlador
+@RestController
+@RequestMapping("/historia-clinica")
 public class ControladorHistoriaClinica {
     @Autowired
     private ServicioHistoriaClinica servicioHistoriaClinica;
@@ -19,11 +17,10 @@ public class ControladorHistoriaClinica {
     @Autowired
     private ServicioPacienteImpl servicioPacienteImpl;
 
-    @PostMapping("/crear/{cuil}") //define el endpoint para crear una historia clínica. Usa el método HTTP POST porque estamos enviando datos para crear un nuevo recurso
+    //anda
+    @PostMapping("/crear/{cuil}")
     public ResponseEntity<String> crearHistoriaClinica(@PathVariable Long cuil) {
-        //@PathVariable obtiene el cuil desde la URL
         try {
-            //crea una hc llamando al servicio
             servicioHistoriaClinica.crearHistoriaClinica(cuil);
             return new ResponseEntity<>("Historia clínica creada con éxito", HttpStatus.CREATED);
         } catch (Exception e) {
@@ -31,6 +28,7 @@ public class ControladorHistoriaClinica {
         }
     }
 
+    //anda
     @GetMapping("/tiene/{cuil}")
     public ResponseEntity<HistoriaClinica> tieneHistoriaClinica(@PathVariable Long cuil) {
         HistoriaClinica tieneHistoriaClinica = servicioHistoriaClinica.tieneHistoriaClinica(cuil);

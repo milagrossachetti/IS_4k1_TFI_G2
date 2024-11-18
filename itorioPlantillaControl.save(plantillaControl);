@@ -1,0 +1,71 @@
+[33mcommit cb4fb22a5babfbb2f57dd82a8c63f8d3f4080120[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m)[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Fri Nov 8 10:47:07 2024 -0300
+
+    Gestionar Plantilla - V2
+
+[33mcommit 3ce7bdc09dd01f0a4f25c4b0ce5132e2373752e3[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Sat Nov 2 19:20:22 2024 -0300
+
+    Plantillas
+
+[33mcommit df6b4595797d905d76f2e23b56efc5592bff03a2[m[33m ([m[1;31morigin/devAriadna[m[33m)[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Fri Sep 27 19:22:26 2024 -0300
+
+    Casos de Uso: G. Usuario, G. Paciente, G. Historia Clinica, Evolución HC - V4
+
+[33mcommit 12721220ef7840b1064c7d92146565d0c35db0fa[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Fri Sep 27 19:15:51 2024 -0300
+
+    Casos de Uso: G. Usuario, G. Paciente, G. Historia Clinica, Evolución HC - V3
+
+[33mcommit 419fffad8280a433934b03e18dcb931bf030e1ee[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Fri Sep 27 17:32:34 2024 -0300
+
+    Casos de Uso: G. Usuario, G. Paciente, G. Historia Clinica, Evolución HC - V2
+
+[33mcommit f47b3eb4784eb271f41bade314793c4a53b17899[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Thu Sep 26 23:58:44 2024 -0300
+
+    Casos de Uso: G. Usuario, G. Paciente, G. Historia Clinica, Evolución HC - V1
+
+[33mcommit 0da5654af615a3a4923209810aaafe173a9a6c90[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Sat Sep 21 17:20:09 2024 -0300
+
+    Casos de Uso: Gestionar Usuario y Gestionar Historia Clinica - V5
+
+[33mcommit 98d3d8f286fa0d204b77e29db0ba9b881570dd3b[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Sat Sep 21 12:26:37 2024 -0300
+
+    Casos de Uso: Gestionar Paciente y Gestionar Hisoria Clinica - V4
+
+[33mcommit c49238af7272307dc1f61ee246f86ecec59102cd[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Fri Sep 20 23:49:59 2024 -0300
+
+    Caso de Uso: Historia clinica - V3
+
+[33mcommit e2526c8a62bd93b2cc3b4026a1d9bfa1246481d5[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Tue Sep 17 12:32:47 2024 -0300
+
+    Caso de Uso: Historia clinica - V2
+
+[33mcommit 54526304dc322b7f2e2dddaf0458f7efccc53239[m
+Author: Ariadna <cisterna2728@gmail.com>
+Date:   Tue Sep 10 09:28:22 2024 -0300
+
+    Caso de uso: Gestionar Historia Clinica
+
+[33mcommit d310be431013cb16bb6bb9a6d676911d47c136fd[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/devMilagros[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Milagros Sachetti <milagrossachetti@gmail.com>
+Date:   Sun Sep 8 17:07:07 2024 -0300
+
+    Agrego las dependencias y la configuracion para conectarse a la base de datos local

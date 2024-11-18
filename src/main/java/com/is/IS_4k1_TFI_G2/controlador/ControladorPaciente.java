@@ -21,6 +21,7 @@ public class ControladorPaciente {
     @Autowired
     private ServicioHistoriaClinica servicioHistoriaClinica;
 
+    //anda
     @PostMapping("/crear")
     public ResponseEntity<String> crearPaciente(@RequestBody Paciente paciente){
         try {
@@ -31,6 +32,7 @@ public class ControladorPaciente {
         }
     }
 
+    //anda
     @PutMapping("/modificar/{cuil}")
     public ResponseEntity<String> modificarPaciente(@PathVariable("cuil") Long cuil, @RequestBody Paciente paciente){
         try {
@@ -41,7 +43,8 @@ public class ControladorPaciente {
         }
     }
 
-    @PutMapping("/eliminar/{cuil}")
+    //anda
+    @DeleteMapping("/eliminar/{cuil}")
     public ResponseEntity<String> eliminarPaciente(@PathVariable("cuil") Long cuil){
         try{
             servicioPaciente.eliminarPaciente(cuil);
@@ -51,6 +54,7 @@ public class ControladorPaciente {
         }
     }
 
+    //anda
     @GetMapping("/buscar/{cuil}")
     public ResponseEntity<Paciente> verificarPaciente(@PathVariable Long cuil) {
        Paciente existePaciente = servicioPacienteImpl.buscarPaciente(cuil);
