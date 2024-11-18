@@ -12,11 +12,21 @@ los métodos createUser, deleteUser, y verifyMedicalLicense con
 la lógica de negocio real que realiza esas operaciones.
 */
 
+import com.is.IS_4k1_TFI_G2.DTOs.UsuarioDTO;
+import com.is.IS_4k1_TFI_G2.controlador.RespuestaAPI;
+import com.is.IS_4k1_TFI_G2.excepcion.ElPacienteYaExisteExcepcion;
+import com.is.IS_4k1_TFI_G2.excepcion.ElUsuarioYaExisteExcepcion;
+import com.is.IS_4k1_TFI_G2.modelo.Rol;
 import com.is.IS_4k1_TFI_G2.modelo.Usuario;
+import com.is.IS_4k1_TFI_G2.repositorio.RepositorioRol;
 import com.is.IS_4k1_TFI_G2.repositorio.RepositorioUsuario;
 import com.is.IS_4k1_TFI_G2.servicio.ServicioAPISalud;
 import com.is.IS_4k1_TFI_G2.servicio.ServicioUsuario;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
@@ -24,53 +34,37 @@ import java.util.Optional;
 public class ServicioUsuarioImpl implements ServicioUsuario {
     @Autowired
     RepositorioUsuario repositorioUsuario;
-
+    @Autowired
+    RepositorioRol repositorioRol;
+    @Autowired
+    PasswordEncoder passwordEncoder;
     @Autowired
     ServicioAPISalud servicioAPISalud;
 
     @Override
-    public void crearUsuario(Usuario usuario) throws Exception{
-        Optional<Usuario> existeUsuario = repositorioUsuario.findById(usuario.getCuil());
-
-        boolean verificarMatricula = servicioAPISalud.verificarMatriculaMedica(usuario.getMatricula());
-
-        if (existeUsuario.isEmpty() && verificarMatricula && "MEDICO".equalsIgnoreCase(usuario.getRol())) {
-            // Crear un médico con matrícula y especialidad
-            Usuario usuarioCreado = new Usuario(
-                    usuario.getCuil(),
-                    usuario.getDni(),
-                    usuario.getMatricula(),
-                    usuario.getNombreCompleto(),
-                    usuario.getEspecialidad(),
-                    usuario.getEmail(),
-                    usuario.getTelefono(),
-                    usuario.getPais(),
-                    usuario.getLocalidad(),
-                    usuario.getDireccion(),
-                    usuario.getProvincia(),
-                    usuario.getRol()
-            );
-            repositorioUsuario.save(usuarioCreado);
-        } else if (existeUsuario.isEmpty() && "RECEPCIONISTA".equalsIgnoreCase(usuario.getRol())) {
-            // Crear un recepcionista sin matrícula ni especialidad
-            Usuario usuarioCreado = new Usuario(
-                    usuario.getCuil(),
-                    usuario.getDni(),
-                    null, // No necesita matrícula
-                    usuario.getNombreCompleto(),
-                    null, // No necesita especialidad
-                    usuario.getEmail(),
-                    usuario.getTelefono(),
-                    usuario.getPais(),
-                    usuario.getLocalidad(),
-                    usuario.getDireccion(),
-                    usuario.getProvincia(),
-                    usuario.getRol()
-            );
-            repositorioUsuario.save(usuarioCreado);
-        } else {
-            throw new Exception("El usuario ya existe en el sistema");
+    @Transactional
+    public Usuario crearUsuario(UsuarioDTO usuarioDTO){
+        if (repositorioUsuario.existsByEmail(usuarioDTO.getEmail()) || repositorioUsuario.existsById(usuarioDTO.getCuil())){
+            throw new ElUsuarioYaExisteExcepcion("El usuario ya existe en el sistema, corrobore su email o cuil.");
         }
+        String rolNombre = (usuarioDTO.getEspecialidad() == null && usuarioDTO.getMatricula() == null) ? "RECEPCIONISTA" : "MEDICO";
+        Rol rol = repositorioRol.findByNombre(rolNombre)
+                .orElseThrow(() -> new RuntimeException("Rol '" + rolNombre + "' no encontrado"));
+        Usuario usuario = new Usuario(usuarioDTO.getCuil(),
+                usuarioDTO.getEmail(),
+                passwordEncoder.encode(usuarioDTO.getContrasenia()),
+                rol,
+                usuarioDTO.getMatricula(),
+                usuarioDTO.getEspecialidad(),
+                usuarioDTO.getDni(),
+                usuarioDTO.getNombreCompleto(),
+                usuarioDTO.getTelefono(),
+                usuarioDTO.getDireccion(),
+                usuarioDTO.getLocalidad(),
+                usuarioDTO.getProvincia(),
+                usuarioDTO.getPais());
+        repositorioUsuario.save(usuario);
+        return usuario;
     }
 
     public boolean verificarMatricula(Long matriculaMedica) throws Exception {
@@ -104,4 +98,5 @@ public class ServicioUsuarioImpl implements ServicioUsuario {
     public Usuario buscarUsuario(Long cuil) {
         return repositorioUsuario.findByCuil(cuil).orElse(null);
     }
+
 }

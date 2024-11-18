@@ -11,61 +11,56 @@ import org.antlr.v4.runtime.misc.NotNull;
 @Builder
 @Entity
 public class Usuario {
-
     @Id
     private Long cuil;
-
-    @Column(nullable = false)
-    private Long dni;
-
-    @Column(nullable = false)
-    private String nombreCompleto;
-
-    @Column(nullable = false)
+    private String email;
+    private String contrasenia;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "rol", nullable = false)  // Asegúrate de que este campo no sea null en la base de datos
+    private Rol rol;
+    @Column(nullable = true)
     private Long matricula; // Solo si es médico
-
     @Column(nullable = true)
     private String especialidad; // Solo si es médico
-
-    @Column(nullable = false)
-    private String email;
-
-    @Column(nullable = false)
+    private Long dni;
+    private String nombreCompleto;
     private Long telefono;
-
-    @Column(nullable = false)
     private String direccion;
-
-    @Column(nullable = false)
     private String localidad;
-
-    @Column(nullable = false)
     private String provincia;
-
-    @Column(nullable = false)
     private String pais;
+    private boolean activo;
 
-    @Column(nullable = false)
-    @NotNull
-    private String rol; // Nuevo campo para diferenciar roles (MEDICO/RECEPCIONISTA)
-
-    private boolean activo; // Para bajas lógicas
-
-    public Usuario(Long cuil, Long dni, Long matricula, String especialidad, String nombreCompleto, String email, Long telefono, String pais, String localidad, String direccion, String provincia, String rol) {
+    public Usuario(Long cuil, String email, String contrasenia, Rol rol, Long matricula, String especialidad, Long dni, String nombreCompleto, Long telefono, String direccion, String localidad, String provincia, String pais) {
         this.cuil = cuil;
-        this.dni = dni;
+        this.email = email;
+        this.contrasenia = contrasenia;
+        this.rol = rol;
         this.matricula = matricula;
         this.especialidad = especialidad;
+        this.dni = dni;
         this.nombreCompleto = nombreCompleto;
-        this.email = email;
         this.telefono = telefono;
-        this.pais = pais;
-        this.localidad = localidad;
         this.direccion = direccion;
+        this.localidad = localidad;
         this.provincia = provincia;
-        this.rol = rol;
-        this.activo = true; // Por defecto activo
+        this.pais = pais;
+        this.activo = true;
     }
 
+    public Usuario(Long cuil, String email, String contrasenia, Rol rol, Long dni, String nombreCompleto, Long telefono, String direccion, String localidad, String provincia, String pais) {
+        this.cuil = cuil;
+        this.email = email;
+        this.contrasenia = contrasenia;
+        this.rol = rol;
+        this.dni = dni;
+        this.nombreCompleto = nombreCompleto;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.localidad = localidad;
+        this.provincia = provincia;
+        this.pais = pais;
+        this.activo = true;
+    }
 }
 

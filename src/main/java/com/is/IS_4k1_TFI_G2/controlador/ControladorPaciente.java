@@ -6,6 +6,7 @@ import com.is.IS_4k1_TFI_G2.servicio.ServicioPaciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,6 @@ public class ControladorPaciente {
         RespuestaAPI<Paciente> response = new RespuestaAPI<>(servicioPaciente.eliminarPaciente(cuil), "Paciente con cuil "+cuil+" eliminado exitosamente");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
     @GetMapping("/buscar/{cuil}")
     public ResponseEntity<RespuestaAPI<Paciente>> verificarPaciente(@PathVariable Long cuil) {
         RespuestaAPI<Paciente> response = new RespuestaAPI<>(servicioPaciente.buscarPaciente(cuil), "Se obtuvo el paciente con cuil " + cuil + " exitosamente");

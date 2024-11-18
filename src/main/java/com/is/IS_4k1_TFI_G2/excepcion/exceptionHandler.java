@@ -63,4 +63,15 @@ public class exceptionHandler extends ResponseEntityExceptionHandler {
                 status
         );
     }
+    @ExceptionHandler(ElUsuarioYaExisteExcepcion.class)
+    public ResponseEntity<MensajeError> ElUsuarioYaExisteExcepcion(ElUsuarioYaExisteExcepcion e){
+        HttpStatus status = HttpStatus.CONFLICT;
+        return new ResponseEntity<>(
+                new MensajeError(
+                        status,
+                        e.getMessage()
+                ),
+                status
+        );
+    }
 }
