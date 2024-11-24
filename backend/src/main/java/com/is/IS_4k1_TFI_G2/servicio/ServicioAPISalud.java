@@ -1,5 +1,9 @@
 package com.is.IS_4k1_TFI_G2.servicio;
 
+import org.springframework.stereotype.Service;
+
+
+@Service
 public interface ServicioAPISalud {
     boolean verificarObraSocial(Long id);
     boolean verificarNumeroAfiliado(Long id, String nroAfiliado);

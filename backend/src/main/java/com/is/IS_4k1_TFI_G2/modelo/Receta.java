@@ -1,55 +1,46 @@
 package com.is.IS_4k1_TFI_G2.modelo;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
 public class Receta {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private Long id; // Opcional para lógica en memoria, no para persistencia
     private LocalDateTime fecha;
-
-    @ManyToOne
-    @JoinColumn(name = "medico_id", nullable = false)
-    private Usuario medico;
-
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    private List<Medicamento> medicamentos;
-
+    private Usuario medico; // Referencia directa al médico
+    private List<MedicamentoRecetado> medicamentos = new ArrayList<>(); // Lista gestionada manualmente
     private boolean anulada;
-
-    @ManyToOne
-    @JoinColumn(name = "evolucion_id", nullable = false)
-    private Evolucion evolucion;
-
-
-    private String rutaPdf; // Ruta del archivo PDF generado para esta receta
+    private Evolucion evolucion; // Referencia directa a la evolución
+    private String rutaPdf;
 
     public Receta() {}
 
-    public Receta(LocalDateTime fecha, Usuario medico, List<Medicamento> medicamentos, Evolucion evolucion) {
+    public Receta(LocalDateTime fecha, Usuario medico, List<MedicamentoRecetado> medicamentos, Evolucion evolucion, String rutaPdf) {
         this.fecha = fecha;
         this.medico = medico;
-        this.medicamentos = medicamentos;
+        this.medicamentos = medicamentos != null ? medicamentos : new ArrayList<>();
         this.evolucion = evolucion;
         this.anulada = false;
+        this.rutaPdf = rutaPdf;
     }
 
     public void anular() {
         this.anulada = true;
     }
 
-    // Método para establecer la ruta del PDF
-    public void setRutaPdf(String rutaPdf) {
-        this.rutaPdf = rutaPdf;
+    // Métodos adicionales para manipular medicamentos
+    public void agregarMedicamento(MedicamentoRecetado medicamento) {
+        if (medicamento != null) {
+            medicamentos.add(medicamento);
+        }
+    }
+
+    public void eliminarMedicamento(MedicamentoRecetado medicamento) {
+        medicamentos.remove(medicamento);
     }
 }

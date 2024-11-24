@@ -2,67 +2,91 @@ package com.is.IS_4k1_TFI_G2.servicio.impl;
 
 import com.is.IS_4k1_TFI_G2.DTOs.EvolucionDTO;
 import com.is.IS_4k1_TFI_G2.modelo.*;
-import com.is.IS_4k1_TFI_G2.repositorio.RepositorioDiagnostico;
-import com.is.IS_4k1_TFI_G2.repositorio.RepositorioHistoriaClinica;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.is.IS_4k1_TFI_G2.modelo.listaDeDato.TipoDiagnostico;
+import com.is.IS_4k1_TFI_G2.repositorio.RepositorioPaciente;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import jakarta.transaction.Transactional;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class ServicioDiagnostico {
 
-    @Autowired
-    private RepositorioDiagnostico repositorioDiagnostico;
+    private final RepositorioPaciente repositorioPaciente;
+    private final ServicioEvolucion servicioEvolucion;
+    private static final Logger logger = LoggerFactory.getLogger(ServicioDiagnostico.class);
 
-    @Autowired
-    private RepositorioHistoriaClinica repositorioHistoriaClinica;
+    public ServicioDiagnostico(RepositorioPaciente repositorioPaciente, ServicioEvolucion servicioEvolucion) {
+        this.repositorioPaciente = repositorioPaciente;
+        this.servicioEvolucion = servicioEvolucion;
+    }
 
-    @Autowired
-    private ServicioEvolucion servicioEvolucion;
+    public List<Diagnostico> obtenerDiagnosticosDelHistorialClinicoDelPaciente(Long cuilPaciente) {
+        Paciente paciente = Optional.ofNullable(repositorioPaciente.buscarPorCuil(cuilPaciente))
+                .orElseThrow(() -> new RuntimeException("Paciente no encontrado con CUIL: " + cuilPaciente));
+        return Optional.ofNullable(paciente.getHistoriaClinica())
+                .map(HistoriaClinica::getDiagnosticos)
+                .orElseThrow(() -> new RuntimeException("El paciente no tiene una historia clínica asociada."));
+    }
 
-    private TipoDiagnostico tipoDiagnostico;
+    public Diagnostico seleccionarDiagnostico(Long cuilPaciente, Long diagnosticoId) {
+        return obtenerDiagnosticosDelHistorialClinicoDelPaciente(cuilPaciente).stream()
+                .filter(diagnostico -> diagnostico.getId().equals(diagnosticoId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Diagnóstico no encontrado para el ID: " + diagnosticoId));
+    }
 
-    // Método privado para crear diagnóstico con primera evolución sin validación de TipoDiagnostico
-    @Transactional
-    private Diagnostico crearDiagnosticoConPrimeraEvolucion(Long idHistoriaClinica, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico, String emailManual) {
-        HistoriaClinica historiaClinica = repositorioHistoriaClinica.findById(idHistoriaClinica)
-                .orElseThrow(() -> new RuntimeException("Historia clínica no encontrada"));
+    private Diagnostico crearDiagnosticoConPrimeraEvolucion(Long cuilPaciente, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico) {
+        Paciente paciente = Optional.ofNullable(repositorioPaciente.buscarPorCuil(cuilPaciente))
+                .orElseThrow(() -> new RuntimeException("Paciente no encontrado con CUIL: " + cuilPaciente));
+        HistoriaClinica historiaClinica = Optional.ofNullable(paciente.getHistoriaClinica())
+                .orElseThrow(() -> new RuntimeException("El paciente no tiene una historia clínica asociada."));
+        if (medico == null) {
+            throw new RuntimeException("El usuario médico es obligatorio.");
+        }
 
         Diagnostico nuevoDiagnostico = new Diagnostico(nombreDiagnostico, historiaClinica, medico);
+        historiaClinica.getDiagnosticos().add(nuevoDiagnostico);
 
-        // Persistir el diagnóstico antes de crear la evolución
-        repositorioDiagnostico.save(nuevoDiagnostico);
+        if (existeDiagnosticoEnHistoriaClinica(cuilPaciente, nombreDiagnostico)) {
+            throw new RuntimeException("El diagnóstico ya existe en la historia clínica.");
+        }
 
-        // Crear evolución asociada al diagnóstico
-        Evolucion primeraEvolucion = servicioEvolucion.crearEvolucion(nuevoDiagnostico, evolucionDTO, medico);
-        nuevoDiagnostico.agregarEvolucion(primeraEvolucion);
+        servicioEvolucion.crearEvolucion(
+                paciente.getCuil(),
+                nuevoDiagnostico.getId(),
+                evolucionDTO,
+                medico
+        );
 
-        // Actualizar diagnóstico con evolución
-        repositorioDiagnostico.save(nuevoDiagnostico);
-
+        repositorioPaciente.guardarPaciente(paciente);
+        logger.info("Diagnóstico '{}' creado para el paciente con CUIL: {}", nombreDiagnostico, cuilPaciente);
         return nuevoDiagnostico;
     }
 
-    // Método público que verifica si el diagnóstico está en TipoDiagnostico
-    public Diagnostico crearDiagnosticoPermitido(Long idHistoriaClinica, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico, String emailManual) {
-        try {
-            tipoDiagnostico = TipoDiagnostico.fromNombre(nombreDiagnostico);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("El diagnóstico ingresado no está permitido.");
+    public Diagnostico crearDiagnosticoPermitido(Long cuilPaciente, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico) {
+        if (!esDiagnosticoPermitido(nombreDiagnostico)) {
+            throw new IllegalArgumentException("Diagnóstico no permitido: " + nombreDiagnostico);
         }
-        return crearDiagnosticoConPrimeraEvolucion(idHistoriaClinica, tipoDiagnostico.getNombre(), evolucionDTO, medico, emailManual);
+        return crearDiagnosticoConPrimeraEvolucion(cuilPaciente, nombreDiagnostico, evolucionDTO, medico);
     }
 
-    // Método público para crear un diagnóstico no permitido en TipoDiagnostico para un paciente específico
-    public Diagnostico crearDiagnosticoNoPermitido(Long idHistoriaClinica, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico, String emailManual) {
-        return crearDiagnosticoConPrimeraEvolucion(idHistoriaClinica, nombreDiagnostico, evolucionDTO, medico, emailManual);
+    public Diagnostico crearDiagnosticoNoPermitido(Long cuilPaciente, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico) {
+        return crearDiagnosticoConPrimeraEvolucion(cuilPaciente, nombreDiagnostico, evolucionDTO, medico);
     }
 
-    // Verificar si el diagnóstico ya está en la historia clínica
-    public boolean existeDiagnosticoEnHistoriaClinica(Long historiaClinicaId, String nombreDiagnostico) {
-        return repositorioDiagnostico.existsByNombreAndHistoriaClinicaId(nombreDiagnostico, historiaClinicaId);
+    public boolean existeDiagnosticoEnHistoriaClinica(Long cuilPaciente, String nombreDiagnostico) {
+        return obtenerDiagnosticosDelHistorialClinicoDelPaciente(cuilPaciente).stream()
+                .anyMatch(diagnostico -> diagnostico.getNombreDiagnostico().equalsIgnoreCase(nombreDiagnostico));
+    }
+
+    private boolean esDiagnosticoPermitido(String nombreDiagnostico) {
+        return TipoDiagnostico.obtenerTodos().stream()
+                .anyMatch(tipo -> tipo.getNombre().equalsIgnoreCase(nombreDiagnostico));
     }
 }

@@ -4,45 +4,36 @@ import lombok.Getter;
 import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
 
-@Entity
 @Getter
 @Setter
 public class Evolucion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private LocalDateTime fechaEvolucion;
     private String texto;
 
-    @ManyToOne
-    @JoinColumn(name = "diagnostico_id", nullable = false)
     @JsonBackReference
     private Diagnostico diagnostico;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", referencedColumnName = "cuil", nullable = false)
-    private Usuario usuario;
+    private Usuario usuario; // Médico autenticado, obligatorio
 
-    @OneToOne(cascade = CascadeType.ALL)
     private PlantillaControl plantillaControl;
-
-    @OneToOne(cascade = CascadeType.ALL)
     private PlantillaLaboratorio plantillaLaboratorio;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "evolucion_id")
-    private List<Receta> recetas;
+    private List<Receta> recetas = new ArrayList<>();
 
     private String rutaPdf;
 
     public Evolucion() {}
 
     public Evolucion(String texto, LocalDateTime fechaEvolucion, Usuario usuario) {
+        if (texto == null || fechaEvolucion == null || usuario == null) {
+            throw new IllegalArgumentException("Texto, fecha y usuario son obligatorios.");
+        }
         this.texto = texto;
         this.fechaEvolucion = fechaEvolucion;
         this.usuario = usuario;
@@ -51,12 +42,10 @@ public class Evolucion {
     public Evolucion(String texto, LocalDateTime fechaEvolucion, Usuario usuario,
                      PlantillaControl plantillaControl, PlantillaLaboratorio plantillaLaboratorio,
                      List<Receta> recetas, String rutaPdf) {
-        this.texto = texto;
-        this.fechaEvolucion = fechaEvolucion;
-        this.usuario = usuario;
+        this(texto, fechaEvolucion, usuario);
         this.plantillaControl = plantillaControl;
         this.plantillaLaboratorio = plantillaLaboratorio;
-        this.recetas = recetas;
+        this.recetas = (recetas != null) ? recetas : new ArrayList<>();
         this.rutaPdf = rutaPdf;
     }
 

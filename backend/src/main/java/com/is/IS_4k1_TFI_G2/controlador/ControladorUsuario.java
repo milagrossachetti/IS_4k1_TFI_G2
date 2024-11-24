@@ -1,56 +1,58 @@
 package com.is.IS_4k1_TFI_G2.controlador;
 
-import com.is.IS_4k1_TFI_G2.repositorio.RepositorioUsuario;
-import com.is.IS_4k1_TFI_G2.servicio.ServicioUsuario;
-import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioUsuarioImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import com.is.IS_4k1_TFI_G2.DTOs.UsuarioInicioSesionDTO;
 import com.is.IS_4k1_TFI_G2.modelo.Usuario;
+import com.is.IS_4k1_TFI_G2.servicio.impl.ServicioUsuario;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
+
+@Validated
 @RestController
 @RequestMapping("/usuario")
 public class ControladorUsuario {
 
-    @Autowired
-    ServicioUsuario servicioUsuario;
+    private final ServicioUsuario servicioUsuario;
 
-    @Autowired
-    ServicioUsuarioImpl servicioUsuarioImpl;
-
-    @Autowired
-    RepositorioUsuario repositorioUsuario;
-
-    // Crear un nuevo usuario
-    @PostMapping("/crear")
-    public ResponseEntity<String> crearUsuario(@RequestBody Usuario usuario) throws Exception {
-        try{
-            servicioUsuario.crearUsuario(usuario);
-            return ResponseEntity.status(HttpStatus.CREATED).body("El usuario fue creado con éxito");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    // Inyección de dependencias por constructor
+    public ControladorUsuario(ServicioUsuario servicioUsuario) {
+        this.servicioUsuario = servicioUsuario;
     }
 
-    // Eliminar  usuario
-    @DeleteMapping("/eliminar/{cuil}")
-    public ResponseEntity<String> eliminarUsuario(@PathVariable("cuil") Long cuil) {
+    /**
+     * Endpoint para autenticar a un usuario.
+     *
+     * @param usuarioInicioSesionDTO DTO con email y contraseña.
+     * @return Respuesta con estado HTTP y mensaje de autenticación o error.
+     */
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody @Valid UsuarioInicioSesionDTO usuarioInicioSesionDTO) {
         try {
-            servicioUsuario.eliminarUsuario(cuil);
-            return ResponseEntity.status(HttpStatus.OK).body("El usuario fue eliminado con éxito");
+            Usuario usuario = servicioUsuario.autenticarUsuario(
+                    usuarioInicioSesionDTO.getEmail(),
+                    usuarioInicioSesionDTO.getContrasenia()
+            );
+
+            // Crear respuesta detallada
+            Map<String, Object> response = new HashMap<>();
+            response.put("mensaje", "Usuario autenticado");
+            response.put("usuario", Map.of(
+                    "id", usuario.getCuil(),
+                    "nombre", usuario.getNombreCompleto(),
+                    "rol", usuario.getRol() // Asegúrate de que `Usuario` tenga este campo o su equivalente.
+            ));
+
+            return ResponseEntity.ok(response);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Ocurrió un error inesperado."));
         }
     }
-
-    @GetMapping("/buscar/{cuil}")
-    public ResponseEntity<Usuario> buscarUsuario(@PathVariable Long cuil) {
-        Usuario buscarUsuario = servicioUsuario.buscarUsuario(cuil);
-        return ResponseEntity.ok(buscarUsuario);
-    }
-
 }
-
-

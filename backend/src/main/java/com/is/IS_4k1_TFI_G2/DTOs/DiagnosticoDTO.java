@@ -2,13 +2,11 @@ package com.is.IS_4k1_TFI_G2.DTOs;
 
 import lombok.Getter;
 import lombok.Setter;
-import javax.validation.constraints.NotNull;
 
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-
 public class DiagnosticoDTO {
     @NotNull
     private Long idHistoriaClinica;

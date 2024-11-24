@@ -2,63 +2,46 @@ package com.is.IS_4k1_TFI_G2.modelo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
 public class Diagnostico {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "historia_clinica_id", nullable = false)
-    @JsonBackReference
     private HistoriaClinica historiaClinica;
+    private String nombreDiagnostico;
+    private Usuario usuario; // Médico que creó el diagnóstico
+    private List<Evolucion> evoluciones = new ArrayList<>();
 
-    private String nombre;
-
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", referencedColumnName = "cuil", nullable = false)
-    private Usuario usuario;
-
-    @OneToMany(mappedBy = "diagnostico", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Evolucion> evoluciones = new ArrayList<>();  // Inicialización de la lista
-
-    // Constructor vacío requerido por JPA
     public Diagnostico() {}
 
-    // Constructor principal: centraliza la inicialización de la lista de evoluciones
-    public Diagnostico(String nombre, Usuario usuario) {
-        this.nombre = nombre;
+    public Diagnostico(String nombreDiagnostico, Usuario usuario) {
+        if (nombreDiagnostico == null || usuario == null) {
+            throw new IllegalArgumentException("Nombre de diagnóstico y usuario son obligatorios.");
+        }
+        this.nombreDiagnostico = nombreDiagnostico;
         this.usuario = usuario;
-        this.evoluciones = new ArrayList<>();
     }
 
-    // Constructor que acepta nombre, historia clínica y usuario
-    public Diagnostico(String nombre, HistoriaClinica historiaClinica, Usuario usuario) {
-        this.nombre = nombre;
+    public Diagnostico(String nombreDiagnostico, HistoriaClinica historiaClinica, Usuario usuario) {
+        this(nombreDiagnostico, usuario);
+        if (historiaClinica == null) {
+            throw new IllegalArgumentException("La historia clínica es obligatoria.");
+        }
         this.historiaClinica = historiaClinica;
-        this.usuario = usuario;
-        this.evoluciones = new ArrayList<>();
     }
 
-    // Constructor alternativo que llama al constructor principal para evitar duplicación
-    public Diagnostico(String nombre, HistoriaClinica historiaClinica, Evolucion primeraEvolucion, Usuario usuario) {
-        this(nombre, usuario); // Llamada al constructor principal
-        this.historiaClinica = historiaClinica;
-        agregarEvolucion(primeraEvolucion); // Añadir la primera evolución
+    public Diagnostico(String nombreDiagnostico, HistoriaClinica historiaClinica, Evolucion primeraEvolucion, Usuario usuario) {
+        this(nombreDiagnostico, historiaClinica, usuario);
+        agregarEvolucion(primeraEvolucion);
     }
 
-    // Método para agregar una evolución con verificación de null
     public void agregarEvolucion(Evolucion evolucion) {
-        if (evolucion != null) { // Evitar agregar evoluciones nulas
+        if (evolucion != null && !evoluciones.contains(evolucion)) {
             this.evoluciones.add(evolucion);
             evolucion.setDiagnostico(this);
         }

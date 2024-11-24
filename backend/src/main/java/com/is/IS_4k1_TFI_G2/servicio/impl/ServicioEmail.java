@@ -17,7 +17,7 @@ public class ServicioEmail {
     private JavaMailSender mailSender;
 
     // Método para enviar un email con un archivo PDF adjunto
-    public void enviarPdfPorEmail(String emailDestino, String asunto, String cuerpo, String rutaPdf) throws MessagingException {
+    public void enviarEmailConAdjunto(String emailDestino, String asunto, String cuerpo, String rutaPdf) throws MessagingException {
         // Crear el mensaje MIME
         MimeMessage mensaje = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mensaje, true); // true para multipart (para adjuntar archivos)
@@ -36,6 +36,7 @@ public class ServicioEmail {
             throw new MessagingException("El archivo PDF no existe o la ruta es incorrecta.");
         }
 
+        // Enviar el mensaje
         mailSender.send(mensaje);
     }
 }
