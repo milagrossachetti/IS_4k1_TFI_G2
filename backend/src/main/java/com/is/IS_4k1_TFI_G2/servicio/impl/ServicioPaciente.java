@@ -10,18 +10,20 @@ import java.util.Optional;
 @Service
 public class ServicioPaciente {
 
-    private final RepositorioPaciente pacienteRepositorio;
+    private final RepositorioPaciente repositorioPaciente;
 
     // Constructor con inyección de dependencias
-    public ServicioPaciente(RepositorioPaciente pacienteRepositorio) {
-        this.pacienteRepositorio = pacienteRepositorio;
+    public ServicioPaciente(RepositorioPaciente repositorioPaciente) {
+
+        this.repositorioPaciente = repositorioPaciente;
     }
 
     // Obtener un paciente por CUIL
     public Paciente obtenerPacientePorCuil(Long cuil) {
-        return Optional.ofNullable(pacienteRepositorio.buscarPorCuil(cuil))
+        return repositorioPaciente.buscarPorCuil(cuil)
                 .orElseThrow(() -> new IllegalArgumentException("Paciente con CUIL " + cuil + " no encontrado."));
     }
+
 
     // Actualizar la historia clínica completa de un paciente
     public void actualizarHistoriaClinica(Long cuil, HistoriaClinica historiaActualizada) {
@@ -29,7 +31,7 @@ public class ServicioPaciente {
         paciente.setHistoriaClinica(historiaActualizada);
 
         // Persistir el cambio
-        pacienteRepositorio.guardarPaciente(paciente);
+        repositorioPaciente.guardarPaciente(paciente);
     }
 
     // Obtener la historia clínica de un paciente

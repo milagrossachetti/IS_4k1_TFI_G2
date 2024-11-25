@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
-import com.is.IS_4k1_TFI_G2.modelo.listaDeDato.Medicamento;
 
 
 import javax.validation.constraints.NotNull;

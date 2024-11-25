@@ -1,77 +1,84 @@
 package com.is.IS_4k1_TFI_G2.servicio.impl;
 
 import com.is.IS_4k1_TFI_G2.DTOs.EvolucionDTO;
+import com.is.IS_4k1_TFI_G2.excepciones.*;
 import com.is.IS_4k1_TFI_G2.modelo.*;
-import com.is.IS_4k1_TFI_G2.modelo.listaDeDato.TipoDiagnostico;
-import com.is.IS_4k1_TFI_G2.repositorio.RepositorioPaciente;
+import com.is.IS_4k1_TFI_G2.repositorio.*;
+import com.is.IS_4k1_TFI_G2.repositorio.apiSalud.RepositorioCieDiez;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 public class ServicioDiagnostico {
 
     private final RepositorioPaciente repositorioPaciente;
     private final ServicioEvolucion servicioEvolucion;
+    private final RepositorioCieDiez repositorioCieDiez;
+
     private static final Logger logger = LoggerFactory.getLogger(ServicioDiagnostico.class);
 
-    public ServicioDiagnostico(RepositorioPaciente repositorioPaciente, ServicioEvolucion servicioEvolucion) {
+    public ServicioDiagnostico(RepositorioPaciente repositorioPaciente, ServicioEvolucion servicioEvolucion, RepositorioCieDiez repositorioCieDiez) {
         this.repositorioPaciente = repositorioPaciente;
         this.servicioEvolucion = servicioEvolucion;
+        this.repositorioCieDiez = repositorioCieDiez;
     }
 
     public List<Diagnostico> obtenerDiagnosticosDelHistorialClinicoDelPaciente(Long cuilPaciente) {
-        Paciente paciente = Optional.ofNullable(repositorioPaciente.buscarPorCuil(cuilPaciente))
-                .orElseThrow(() -> new RuntimeException("Paciente no encontrado con CUIL: " + cuilPaciente));
-        return Optional.ofNullable(paciente.getHistoriaClinica())
-                .map(HistoriaClinica::getDiagnosticos)
-                .orElseThrow(() -> new RuntimeException("El paciente no tiene una historia clínica asociada."));
+        Paciente paciente = repositorioPaciente.buscarPorCuil(cuilPaciente)
+                .orElseThrow(() -> new PacienteNoEncontradoException("Paciente no encontrado con CUIL: " + cuilPaciente));
+        HistoriaClinica historiaClinica = paciente.getHistoriaClinica();
+        if (historiaClinica == null) {
+            throw new HistoriaClinicaNoEncontradaException("El paciente no tiene una historia clínica asociada.");
+        }
+        return historiaClinica.getDiagnosticos();
     }
 
     public Diagnostico seleccionarDiagnostico(Long cuilPaciente, Long diagnosticoId) {
         return obtenerDiagnosticosDelHistorialClinicoDelPaciente(cuilPaciente).stream()
                 .filter(diagnostico -> diagnostico.getId().equals(diagnosticoId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Diagnóstico no encontrado para el ID: " + diagnosticoId));
+                .orElseThrow(() -> new DiagnosticoNoEncontradoException("Diagnóstico no encontrado para el ID: " + diagnosticoId));
     }
 
     private Diagnostico crearDiagnosticoConPrimeraEvolucion(Long cuilPaciente, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico) {
-        Paciente paciente = Optional.ofNullable(repositorioPaciente.buscarPorCuil(cuilPaciente))
-                .orElseThrow(() -> new RuntimeException("Paciente no encontrado con CUIL: " + cuilPaciente));
-        HistoriaClinica historiaClinica = Optional.ofNullable(paciente.getHistoriaClinica())
-                .orElseThrow(() -> new RuntimeException("El paciente no tiene una historia clínica asociada."));
         if (medico == null) {
-            throw new RuntimeException("El usuario médico es obligatorio.");
+            throw new UsuarioNoAutenticadoException("El usuario médico es obligatorio.");
+        }
+
+        Paciente paciente = repositorioPaciente.buscarPorCuil(cuilPaciente)
+                .orElseThrow(() -> new PacienteNoEncontradoException("Paciente no encontrado con CUIL: " + cuilPaciente));
+
+        HistoriaClinica historiaClinica = paciente.getHistoriaClinica();
+        if (historiaClinica == null) {
+            throw new HistoriaClinicaNoEncontradaException("El paciente no tiene una historia clínica asociada.");
+        }
+
+        if (existeDiagnosticoEnHistoriaClinica(cuilPaciente, nombreDiagnostico)) {
+            throw new DiagnosticoDuplicadoException("El diagnóstico ya existe en la historia clínica.");
         }
 
         Diagnostico nuevoDiagnostico = new Diagnostico(nombreDiagnostico, historiaClinica, medico);
         historiaClinica.getDiagnosticos().add(nuevoDiagnostico);
 
-        if (existeDiagnosticoEnHistoriaClinica(cuilPaciente, nombreDiagnostico)) {
-            throw new RuntimeException("El diagnóstico ya existe en la historia clínica.");
-        }
+        repositorioPaciente.guardarPaciente(paciente);
 
         servicioEvolucion.crearEvolucion(
-                paciente.getCuil(),
+                cuilPaciente,
                 nuevoDiagnostico.getId(),
                 evolucionDTO,
                 medico
         );
 
-        repositorioPaciente.guardarPaciente(paciente);
         logger.info("Diagnóstico '{}' creado para el paciente con CUIL: {}", nombreDiagnostico, cuilPaciente);
         return nuevoDiagnostico;
     }
 
     public Diagnostico crearDiagnosticoPermitido(Long cuilPaciente, String nombreDiagnostico, EvolucionDTO evolucionDTO, Usuario medico) {
         if (!esDiagnosticoPermitido(nombreDiagnostico)) {
-            throw new IllegalArgumentException("Diagnóstico no permitido: " + nombreDiagnostico);
+            throw new DiagnosticoNoPermitidoException("Diagnóstico no permitido: " + nombreDiagnostico);
         }
         return crearDiagnosticoConPrimeraEvolucion(cuilPaciente, nombreDiagnostico, evolucionDTO, medico);
     }
@@ -86,7 +93,8 @@ public class ServicioDiagnostico {
     }
 
     private boolean esDiagnosticoPermitido(String nombreDiagnostico) {
-        return TipoDiagnostico.obtenerTodos().stream()
-                .anyMatch(tipo -> tipo.getNombre().equalsIgnoreCase(nombreDiagnostico));
+        return repositorioCieDiez.obtenerTodos().stream()
+                .anyMatch(tipo -> tipo.getNombreDiagnostico().equalsIgnoreCase(nombreDiagnostico));
     }
+
 }

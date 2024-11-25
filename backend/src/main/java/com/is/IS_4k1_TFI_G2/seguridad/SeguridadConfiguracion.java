@@ -23,12 +23,12 @@ public class SeguridadConfiguracion {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/usuario/login").permitAll()
                         .requestMatchers("/paciente/**", "/historia-clinica/**").hasAuthority("MEDICO")
-                        .requestMatchers("/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/diagnosticos/crear-permitido").hasAuthority("MEDICO") // Permitir acceso a MEDICO
+                        .requestMatchers("/**").hasAuthority("ADMIN") // Por defecto, ADMIN para todo lo demás
                         .anyRequest().authenticated()
                 );
         return http.build();
     }
-
 
     @Bean
     public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {

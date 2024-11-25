@@ -1,7 +1,5 @@
 package com.is.IS_4k1_TFI_G2.modelo;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,32 +12,50 @@ public class Diagnostico {
     private Long id;
     private HistoriaClinica historiaClinica;
     private String nombreDiagnostico;
-    private Usuario usuario; // Médico que creó el diagnóstico
+    private Usuario medico; // Médico que creó el diagnóstico
     private List<Evolucion> evoluciones = new ArrayList<>();
 
+    // Constructor por defecto
     public Diagnostico() {}
 
-    public Diagnostico(String nombreDiagnostico, Usuario usuario) {
-        if (nombreDiagnostico == null || usuario == null) {
-            throw new IllegalArgumentException("Nombre de diagnóstico y usuario son obligatorios.");
+    // Constructor con solo el nombre del diagnóstico
+    public Diagnostico(String nombreDiagnostico) {
+        if (nombreDiagnostico == null) {
+            throw new IllegalArgumentException("El nombre del diagnóstico no puede ser nulo.");
         }
         this.nombreDiagnostico = nombreDiagnostico;
-        this.usuario = usuario;
     }
 
-    public Diagnostico(String nombreDiagnostico, HistoriaClinica historiaClinica, Usuario usuario) {
-        this(nombreDiagnostico, usuario);
+    // Constructor con nombre del diagnóstico y médico
+    public Diagnostico(String nombreDiagnostico, Usuario medico) {
+        if (nombreDiagnostico == null || medico == null) {
+            throw new IllegalArgumentException("El nombre del diagnóstico y el médico no pueden ser nulos.");
+        }
+        this.nombreDiagnostico = nombreDiagnostico;
+        this.medico = medico;
+    }
+
+    // Constructor con historia clínica
+    public Diagnostico(String nombreDiagnostico, HistoriaClinica historiaClinica, Usuario medico) {
+        this(nombreDiagnostico, medico);
         if (historiaClinica == null) {
-            throw new IllegalArgumentException("La historia clínica es obligatoria.");
+            throw new IllegalArgumentException("La historia clínica no puede ser nula.");
         }
         this.historiaClinica = historiaClinica;
     }
 
-    public Diagnostico(String nombreDiagnostico, HistoriaClinica historiaClinica, Evolucion primeraEvolucion, Usuario usuario) {
-        this(nombreDiagnostico, historiaClinica, usuario);
+    // Constructor con nombre, historia clínica, evolución inicial y usuario
+    public Diagnostico(String nombreDiagnostico, HistoriaClinica historiaClinica, Evolucion primeraEvolucion, Usuario medico) {
+        this(nombreDiagnostico, historiaClinica, medico);
         agregarEvolucion(primeraEvolucion);
     }
 
+
+    public String getNombreDiagnostico() {
+        return this.nombreDiagnostico;
+    }
+
+    // Agregar evolución al diagnóstico
     public void agregarEvolucion(Evolucion evolucion) {
         if (evolucion != null && !evoluciones.contains(evolucion)) {
             this.evoluciones.add(evolucion);
